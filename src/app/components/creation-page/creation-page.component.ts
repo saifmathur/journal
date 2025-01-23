@@ -14,9 +14,14 @@ import { HttpClientModule } from '@angular/common/http';
 export class CreationPageComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
+  //variables
+  workTypeCategory:any
+  //variables
+
   ngOnInit(): void {
     this.dataService.getWorkTypes().subscribe((res) => {
       console.log(res);
+      this.workTypeCategory = res
     });
   }
 }

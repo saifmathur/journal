@@ -37,10 +37,11 @@
                     <select id="typeOfWork"
                         class="mt-2 block w-full px-4 py-3 border border-gray-600 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg bg-gray-700 text-white transition-all duration-200 ease-in-out">
                         <option value="" disabled selected>Select a type</option>
-                        <option value="design">Design</option>
+                        <option *ngFor="let i of workTypeCategory" value="i.workType">{{i.workType}}</option>
+                        <!-- <option value="design">Design</option>
                         <option value="development">Development</option>
                         <option value="testing">Testing</option>
-                        <option value="management">Management</option>
+                        <option value="management">Management</option> -->
                     </select>
                 </div>
                 <!-- Description Input -->
