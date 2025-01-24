@@ -23,43 +23,39 @@
     <main id="form" class="flex-grow flex items-center justify-center w-full px-4">
         <div class="bg-gray-800 p-12 rounded-lg shadow-2xl w-full max-w-4xl m-6">
             <h2 class="text-3xl font-bold mb-8 text-white text-center">Task Form</h2>
-            <form class="space-y-6">
+            <form class="space-y-6" [formGroup]="taskForm" (ngSubmit)="onSubmit()">
                 <!-- Task Input -->
                 <div>
                     <label for="task" class="block text-lg font-medium text-gray-300">Task</label>
-                    <input type="text" id="task"
+                    <input type="text" id="task" formControlName="taskName"
                         class="mt-2 block w-full px-4 py-3 border border-gray-600 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg bg-gray-700 text-white transition-all duration-200 ease-in-out"
                         placeholder="Enter the task name" />
                 </div>
                 <!-- Type of Work Dropdown -->
                 <div>
                     <label for="typeOfWork" class="block text-lg font-medium text-gray-300">Type of Work</label>
-                    <select id="typeOfWork"
+                    <select [(ngModel)]="selectedWorkType" id="typeOfWork" [ngModelOptions]="{standalone: true}"
                         class="mt-2 block w-full px-4 py-3 border border-gray-600 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg bg-gray-700 text-white transition-all duration-200 ease-in-out">
                         <option value="" disabled selected>Select a type</option>
-                        <option *ngFor="let i of workTypeCategory" value="i.workType">{{i.workType}}</option>
-                        <!-- <option value="design">Design</option>
-                        <option value="development">Development</option>
-                        <option value="testing">Testing</option>
-                        <option value="management">Management</option> -->
+                        <option *ngFor="let i of workTypeCategory" [ngValue]="i">{{i.workType}}</option>
                     </select>
                 </div>
                 <!-- Description Input -->
                 <div>
                     <label for="description" class="block text-lg font-medium text-gray-300">Description</label>
-                    <textarea id="description" rows="5"
+                    <textarea id="description" rows="5" formControlName="description"
                         class="mt-2 block w-full px-4 py-3 border border-gray-600 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg bg-gray-700 text-white transition-all duration-200 ease-in-out"
                         placeholder="Enter the description"></textarea>
                 </div>
                 <!-- Date Picker -->
                 <div>
                     <label for="date" class="block text-lg font-medium text-gray-300">Date</label>
-                    <input type="date" id="date"
+                    <input type="date" id="date" formControlName="date"
                         class="mt-2 block w-full px-4 py-3 border border-gray-600 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg bg-gray-700 text-white transition-all duration-200 ease-in-out" />
                 </div>
                 <!-- Submit Button -->
                 <div>
-                    <button type="submit"
+                    <button type="submit" 
                         class="w-full bg-gradient-to-r from-teal-500 to-teal-600 text-white px-4 py-3 rounded-lg shadow-md hover:bg-teal-400 focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 text-lg font-semibold transition-all duration-200 ease-in-out">
                         Submit
                     </button>
