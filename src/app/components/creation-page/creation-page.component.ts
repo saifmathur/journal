@@ -3,7 +3,6 @@ import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { WorkType } from '../../custom-interfaces/workType';
 
 @Component({
   selector: 'app-creation-page',
