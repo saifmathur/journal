@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RegisterComponent } from "./components/register/register.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { CommonModule } from "@angular/common";
+import { LoginComponent } from "./components/login/login.component";
 
 export const imports = [
   RouterModule,
@@ -15,5 +16,6 @@ export const imports = [
   RegisterComponent,
   ReactiveFormsModule,
   FormsModule,
-  CommonModule
+  CommonModule,
+  LoginComponent
 ];
