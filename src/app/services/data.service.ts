@@ -17,13 +17,29 @@ export class DataService {
   getWorkTypes(): Observable<any> {
     const headers = this.auth.getAuthHeaders();
     console.log(headers);
-    
+
     return this.http.get(`${this.apiUrl}/work/getAllWorkType`, { headers });
   }
-
+  getJournalEntriesForUser(): Observable<any> {
+    const headers = this.auth.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/journal/getEntries`, { headers });
+  }
   // POST request
-  postData(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/data`, data);
+  createJournal(payload: {
+    userId: number;
+    taskName: any;
+    typeOfWork: any;
+    description: any;
+    date: any;
+  }): Observable<any> {
+    const headers = this.auth.getAuthHeaders();
+    return this.http.post(
+      `${this.apiUrl}/journal/createJournalEntry`,
+      payload,
+      {
+        headers: headers,
+      }
+    );
   }
 
   // PUT request

@@ -35,11 +35,11 @@
           </thead>
           <tbody>
             <!-- Entry Row Example -->
-            <tr class="hover:bg-gray-600 border-b border-gray-600">
-              <td class="py-3 px-4">2025-01-20</td>
-              <td class="py-3 px-4">Design Logo</td>
-              <td class="py-3 px-4">Create a new logo for the website</td>
-              <td class="py-3 px-4">Design</td>
+            <tr *ngFor="let entry of entries" class="hover:bg-gray-600 border-b border-gray-600">
+              <td  class="py-3 px-4">{{entry.date}}</td>
+              <td class="py-3 px-4">{{entry.entryTitle}}</td>
+              <td class="py-3 px-4">{{entry.description}}</td>
+              <td class="py-3 px-4">{{entry.workType.workType}}</td>
               <td class="py-3 px-4">
                 <button class="bg-teal-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-teal-400 transition-all duration-200">Edit</button>
                 <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-400 transition-all duration-200">Export</button>
