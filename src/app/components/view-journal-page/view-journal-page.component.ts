@@ -19,15 +19,35 @@ import {
 export class ViewJournalPageComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
+  entryToDelete: any;
   entries: any;
+  isModalVisible: boolean = false;
 
   ngOnInit(): void {
-    this.getAllEntriesForUser()
+    this.getAllEntriesForUser();
   }
 
   getAllEntriesForUser() {
     this.dataService.getJournalEntriesForUser().subscribe((res) => {
       this.entries = res;
     });
+  }
+  confirmDelete(entry: any) {
+    this.entryToDelete = entry;
+    this.isModalVisible = true;
+  }
+  cancelDelete() {
+    this.isModalVisible = false;
+    this.entryToDelete = null;
+  }
+
+  deleteEntry() {
+    this.dataService.deleteData(this.entryToDelete.id).subscribe(res=>{
+      this.entries = res
+    },(err:any)=>{
+      alert("delete failed!")
+    },()=>{
+      this.cancelDelete();
+    })
   }
 }

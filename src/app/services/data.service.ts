@@ -49,6 +49,6 @@ export class DataService {
 
   // DELETE request
   deleteData(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/data/${id}`);
+    return this.http.get(`${this.apiUrl}/journal/deleteEntry/${id}`);
   }
 }
