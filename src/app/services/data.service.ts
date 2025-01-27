@@ -20,9 +20,9 @@ export class DataService {
 
     return this.http.get(`${this.apiUrl}/work/getAllWorkType`, { headers });
   }
-  getJournalEntriesForUser(id:number): Observable<any> {
+  getJournalEntriesForUser(): Observable<any> {
     const headers = this.auth.getAuthHeaders();
-    return this.http.get(`${this.apiUrl}/journal/getEntries/${id}`, { headers });
+    return this.http.get(`${this.apiUrl}/journal/getEntries`, { headers });
   }
   // POST request
   createJournal(payload: {

@@ -1,16 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthInterceptor } from '../../interceptors/auth.interceptor';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @Component({
   selector: 'app-creation-page',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './creation-page.component.html',
   styleUrl: './creation-page.component.scss',
-  providers: [DataService],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true, // Ensure multiple interceptors can be used
+    },
+    DataService,
+  ],
 })
 export class CreationPageComponent implements OnInit {
   constructor(
@@ -31,9 +39,14 @@ export class CreationPageComponent implements OnInit {
   }
 
   getWorkTypeData() {
-    this.dataService.getWorkTypes().subscribe((res) => {
-      this.workTypeCategory = res;
-    });
+    this.dataService.getWorkTypes().subscribe(
+      (res) => {
+        this.workTypeCategory = res;
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
   }
 
   initForm() {
@@ -46,7 +59,7 @@ export class CreationPageComponent implements OnInit {
   }
   onSubmit(): void {
     let payload = {
-      userId:1,
+      userId: 1,
       taskName: this.taskForm.value.taskName,
       typeOfWork: this.selectedWorkType,
       description: this.taskForm.value.description,
@@ -55,14 +68,17 @@ export class CreationPageComponent implements OnInit {
     if (this.taskForm?.valid) {
       console.log(payload);
       let res: any;
-      this.dataService.createJournal(payload).subscribe((res: any)=>{
-        res=res
-      },(err:any)=>{
-        res = err.message
-      },()=>{
-        alert(res);
-
-      })
+      this.dataService.createJournal(payload).subscribe(
+        (res: any) => {
+          res = res;
+        },
+        (err: any) => {
+          res = err.message;
+        },
+        () => {
+          alert(res);
+        }
+      );
 
       this.taskForm.reset();
     }

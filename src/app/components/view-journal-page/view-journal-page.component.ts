@@ -26,7 +26,7 @@ export class ViewJournalPageComponent implements OnInit {
   }
 
   getAllEntriesForUser() {
-    this.dataService.getJournalEntriesForUser(1).subscribe((res) => {
+    this.dataService.getJournalEntriesForUser().subscribe((res) => {
       this.entries = res;
     });
   }
