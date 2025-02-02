@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { primengmodules } from '../../primeng.imports';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 @Component({
   selector: 'app-view-journal-page',
   imports: [
@@ -25,20 +26,30 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   providers: [DataService, DatePipe, ConfirmationService],
 })
 export class ViewJournalPageComponent implements OnInit {
+  editDialog: boolean = false;
+  editEntry: any;
+  workTypeCategory: any;
+  taskForm!: FormGroup;
+  selectedWorkType: any | undefined;
+  entryDate: any;
+  viewDialog: any;
   constructor(
     private dataService: DataService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private formBuilder: FormBuilder
   ) {}
   date: Date = new Date();
   entryToDelete: any;
   firstName: any = localStorage.getItem('fullName')?.split(' ').at(0);
+  fullName: any = localStorage.getItem('fullName')
 
   entries: any;
   isModalVisible: boolean = false;
-
+  description: any;
   ngOnInit(): void {
     this.getAllEntriesForUser();
+    this.initForm();
   }
 
   getAllEntriesForUser() {
@@ -87,19 +98,93 @@ export class ViewJournalPageComponent implements OnInit {
       this.messageService.clear();
     }, timeout);
   }
- 
 
   deleteEntry(id: any) {
     this.dataService.deleteData(id).subscribe(
       (res) => {
         this.entries = res;
-        this.showToast('success','Record Deleted!')
+        this.showToast('success', 'Record Deleted!');
       },
       (err: any) => {
         this.showToast('error', 'Failed to delete.');
       },
-      () => {
+      () => {}
+    );
+  }
+
+  showEdit(entry: any) {
+    this.initForm();
+    this.editDialog = true;
+    this.editEntry = entry;
+    this.getWorkTypeData();
+    console.log(entry);
+    this.selectedWorkType = entry.workType;
+    this.entryDate = new Date(entry.date);
+
+    this.description = entry.description;
+    console.log(this.description);
+    this.taskForm.patchValue({
+      taskName: entry.entryTitle,
+      workType: entry.workType.workType,
+      description: entry.description,
+      date: entry.date,
+    });
+  }
+
+  search(event: AutoCompleteCompleteEvent) {
+    this.workTypeCategory = [...this.workTypeCategory];
+  }
+
+  initForm() {
+    this.taskForm = this.formBuilder.group({
+      taskName: ['', Validators.required],
+      //typeOfWork: ['' , Validators.required],
+      description: ['', Validators.required],
+      date: ['', Validators.required],
+    });
+  }
+
+  onSubmit(): void {
+    let payload = {
+      userId: 0,
+      taskId: this.editEntry.id,
+      taskName: this.taskForm.value.taskName,
+      typeOfWork: this.selectedWorkType,
+      description: this.description,
+      date: this.entryDate,
+    };
+    if (this.taskForm?.valid) {
+      console.log(payload);
+      let res: any;
+      this.dataService.createJournal(payload).subscribe(
+        (res: any) => {},
+        (err: any) => {
+          this.showToast('success', 'Journal Entry Created!');
+        }
+      );
+
+      this.taskForm.reset();
+      this.editDialog = false;
+
+      setTimeout(() => {
+        this.getAllEntriesForUser();
+      }, 1000);
+    }
+  }
+
+  getWorkTypeData() {
+    this.dataService.getWorkTypes().subscribe(
+      (res) => {
+        this.workTypeCategory = res;
+      },
+      (err: any) => {
+        console.log(err);
       }
     );
+  }
+
+  viewEntry(entry: any) {
+    this.editEntry = entry;
+    this.viewDialog = true;
   }
 }
