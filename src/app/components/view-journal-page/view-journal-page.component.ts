@@ -20,6 +20,8 @@ export class ViewJournalPageComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   entryToDelete: any;
+  firstName: any = localStorage.getItem('fullName')?.split(' ').at(0);
+
   entries: any;
   isModalVisible: boolean = false;
 
@@ -42,12 +44,16 @@ export class ViewJournalPageComponent implements OnInit {
   }
 
   deleteEntry() {
-    this.dataService.deleteData(this.entryToDelete.id).subscribe(res=>{
-      this.entries = res
-    },(err:any)=>{
-      alert("delete failed!")
-    },()=>{
-      this.cancelDelete();
-    })
+    this.dataService.deleteData(this.entryToDelete.id).subscribe(
+      (res) => {
+        this.entries = res;
+      },
+      (err: any) => {
+        alert('delete failed!');
+      },
+      () => {
+        this.cancelDelete();
+      }
+    );
   }
 }

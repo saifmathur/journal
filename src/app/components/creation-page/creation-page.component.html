@@ -13,7 +13,7 @@
     <header
         class="w-full bg-gradient-to-r from-gray-700 to-gray-800 py-10 flex items-center justify-center text-center text-white">
         <div class="w-full max-w-3xl px-6">
-            <h1 class="text-4xl font-extrabold leading-tight mb-4">Your Personal Journal</h1>
+            <h1 class="text-4xl font-extrabold leading-tight mb-4">{{firstName}}'s Personal Journal</h1>
             <p class="text-xl text-gray-400">Stay organized and focused by tracking tasks, projects, and ideas
                 effortlessly.</p>
         </div>
@@ -28,7 +28,7 @@
                 <div class="col-7 field">
                     <label for="task" class="block text-lg font-medium text-gray-300">Task</label>
                     <input pInputText type="text" id="task" formControlName="taskName"
-                        class=" w-full px-3 h-11  rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg bg-gray-700 text-white transition-all duration-200 ease-in-out"
+                        class=" w-full px-3 h-11 text-lg "
                         placeholder="Enter the task name" />
                 </div>
                 <!-- Type of Work Dropdown -->

@@ -33,6 +33,7 @@ export class CreationPageComponent implements OnInit {
   }
 
   //variables
+  firstName:any = localStorage.getItem('fullName')?.split(" ").at(0)
   workTypeCategory: any;
   taskForm!: FormGroup;
   selectedWorkType: any | undefined;

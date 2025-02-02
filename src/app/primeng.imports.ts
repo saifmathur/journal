@@ -14,10 +14,12 @@ import { EditorModule } from 'primeng/editor';
 import { DrawerModule } from 'primeng/drawer';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DatePickerModule } from 'primeng/datepicker';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 export const primengmodules = [
   ButtonModule,
   CardModule,
   DatePickerModule,
+  ProgressSpinnerModule,
   DrawerModule,
   InputTextModule,
   PasswordModule,
