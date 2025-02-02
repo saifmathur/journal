@@ -16,11 +16,17 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 export const primengmodules = [
   ButtonModule,
   CardModule,
+  ConfirmPopupModule,
   DatePickerModule,
+  TooltipModule,
   ProgressSpinnerModule,
+  TableModule,
   DrawerModule,
   InputTextModule,
   PasswordModule,
@@ -35,5 +41,4 @@ export const primengmodules = [
   ToggleButtonModule,
   ToggleSwitchModule,
   AutoCompleteModule,
-  
 ];
