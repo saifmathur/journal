@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { imports } from '../../app.imports';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { primengmodules } from '../../primeng.imports';
+import { moduleImports } from '../../app.module.imports';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-login',
-  imports: imports,
+  // imports: [ FormsModule, ReactiveFormsModule, CardModule, InputTextModule,ButtonModule,PasswordModule,CommonModule],
+  imports: [...primengmodules, ...moduleImports],
+
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  providers: [AuthService]
+  providers: [AuthService],
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
@@ -37,6 +41,8 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('userInitials', response.initials);
+          localStorage.setItem('fullName', response.fullName);
           this.router.navigate(['/create']);
         },
         error: (err) => {

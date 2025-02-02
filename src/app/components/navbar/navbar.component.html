@@ -1,28 +1,20 @@
-<nav class="w-full bg-gradient-to-r from-blue-800 to-purple-700 shadow-md py-4">
+<!-- <nav class="w-full bg-gradient-to-r from-blue-800 to-purple-700 shadow-md py-4">
     <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <!-- Journal App Text -->
         <div>
             <a href="/create" class="text-white text-2xl font-semibold tracking-wider hover:text-gray-300">Journal
                 App</a>
         </div>
 
-        <!-- Navigation Links -->
         <div  class="flex items-center space-x-6">
-            <!-- Home Button with Icon -->
             <a href="/create" class="text-white text-lg font-medium hover:text-gray-300 flex items-center space-x-2">
                 <i class="fa-solid fa-house"></i>
-                <!-- <span>Home</span> -->
             </a>
 
-            <!-- Go to Entries Button -->
             <a href="/entries" class="text-white text-lg font-medium hover:text-gray-300">
                 <i class="fa-solid fa-book"></i>
-                <!-- Journal Entries -->
             </a>
 
-            <!-- User Profile Button with Initials -->
             
-            <!-- Logout Button -->
             <button (click)="logout()" class="text-white text-lg font-medium hover:text-gray-300">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
             </button>
@@ -32,4 +24,58 @@
             </button>
         </div>
     </div>
-</nav>
+</nav> -->
+
+
+
+<p-menubar [model]="items">
+    <ng-template #start>
+        <svg width="33" height="35" viewBox="0 0 33 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="..." fill="var(--primary-color)" />
+        </svg>
+    </ng-template>
+    <ng-template #item let-item let-root="root">
+        <a pRipple class="flex items-center p-menubar-item-link">
+            <span>{{ item.label }}</span>
+            <p-badge *ngIf="item?.badge" [ngClass]="{ 'ml-auto': !root, 'ml-2': root }" [value]="item.badge" />
+            <span *ngIf="item.shortcut"
+                class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut
+                }}</span>
+            <i *ngIf="item.items" [ngClass]="['ml-auto pi', root ? 'pi-angle-down' : 'pi-angle-right']"></i>
+        </a>
+    </ng-template>
+    <ng-template #end>
+        <div class="flex items-center gap-4">
+            <p-toggleswitch [(ngModel)]="checked" (onChange)="toggleDarkMode()">
+                <ng-template #handle let-checked="checked">
+                    <i [ngClass]="['!text-xs', 'pi', checked ? 'pi-moon' : 'pi-sun']"></i>
+                </ng-template>
+            </p-toggleswitch>
+            <a pRipple *ngIf="!this.authService.isLoggedIn()" [routerLink]="'/register'" class="p-menubar-item-link">Register</a>
+            <p-button *ngIf="this.authService.isLoggedIn()" variant="text" icon="pi pi-user" (click)="openSettings()" />
+            <p-avatar shape="circle" *ngIf="this.authService.isLoggedIn()" label="{{initials}}" styleClass="mr-2" size="large"
+                [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }" />
+        </div>
+    </ng-template>
+
+</p-menubar>
+
+
+<p-drawer [(visible)]="sideOptions" position="right" [closable]="true">
+    <ng-template #header>
+        <div class="flex items-center gap-2">
+        <p-avatar shape="circle" label="{{this.initials}}" styleClass="mr-2" size="large"
+            [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }" />
+            <span class="font-bold">{{this.fullName}}</span>
+        </div>
+    </ng-template>
+    <p>
+       Give entry stats here
+    </p>
+    <ng-template #footer>
+        <div class="flex items-center gap-2">
+            <button pButton label="Account" icon="pi pi-user" class="w-full" outlined></button>
+            <button pButton label="Logout" (click)="logout()" icon="pi pi-sign-out" class="w-full" severity="danger" text></button>
+        </div>
+    </ng-template>
+</p-drawer>

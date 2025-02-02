@@ -21,7 +21,10 @@ export class AuthService {
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
   private hasToken(): boolean {
-    return !!localStorage.getItem('token');
+    if (localStorage.getItem('token')!=undefined){
+      return true
+    } else{return false}
+      
   }
 
   // Set the token for token-based authentication
@@ -38,10 +41,14 @@ export class AuthService {
 
   login(credentials: { email: string; password: string }) {
     this.isLoggedInSubject.next(true);
-    return this.http.post<{ token: string }>(
+    return this.http.post<{ token: string; initials: string; fullName:string }>(
       `${this.apiUrl}/login`,
       credentials
     );
+  }
+
+  updateState(){
+    this.isLoggedInSubject.next(true);
   }
 
   register(data: any) {
@@ -60,7 +67,9 @@ export class AuthService {
         this.isLoggedInSubject.next(false);
       },
       (err: any) => {},
-      () => {}
+      () => {
+        localStorage.clear()
+      }
     );
   }
 

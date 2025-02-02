@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { imports } from './app.imports';
-import { AuthService } from './services/auth.service';
-import { AuthGuard } from './guards/auth.guard';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { DataService } from './services/data.service';
+import { compImports } from './app.component.imports';
+import { moduleImports } from './app.module.imports';
+import { primengmodules } from './primeng.imports';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   standalone: true,
-  imports: imports,
+  imports: [...compImports, ...moduleImports, ...primengmodules],
   // providers: [
   //   {
   //     provide: HTTP_INTERCEPTORS,
@@ -21,8 +18,7 @@ import { DataService } from './services/data.service';
   //   DataService
   // ],
 })
-export class AppComponent implements OnInit{
-  ngOnInit(): void {
-  }
+export class AppComponent implements OnInit {
+  ngOnInit(): void {}
   // AppComponent logic here
 }

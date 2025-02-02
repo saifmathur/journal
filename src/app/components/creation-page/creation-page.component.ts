@@ -4,11 +4,15 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthInterceptor } from '../../interceptors/auth.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { compImports } from '../../app.component.imports';
+import { moduleImports } from '../../app.module.imports';
+import { primengmodules } from '../../primeng.imports';
+import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 
 @Component({
   selector: 'app-creation-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [...compImports, ...moduleImports, ...primengmodules],
   templateUrl: './creation-page.component.html',
   styleUrl: './creation-page.component.scss',
   providers: [
@@ -32,6 +36,8 @@ export class CreationPageComponent implements OnInit {
   workTypeCategory: any;
   taskForm!: FormGroup;
   selectedWorkType: any | undefined;
+  description: any;
+  entryDate: any = new Date();
   //variables
 
   ngOnInit(): void {
@@ -57,6 +63,11 @@ export class CreationPageComponent implements OnInit {
       date: ['', Validators.required],
     });
   }
+
+  search(event: AutoCompleteCompleteEvent) {
+    this.workTypeCategory = [...this.workTypeCategory];
+  }
+
   onSubmit(): void {
     let payload = {
       userId: 1,
