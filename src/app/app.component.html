@@ -1,2 +1,7 @@
 <app-navbar></app-navbar>
+<p-toast position="top-right" key="tl"  />
+<div class="loader-overlay" *ngIf="isLoading | async">
+    <p-progressSpinner></p-progressSpinner>
+
+</div>
 <router-outlet />
