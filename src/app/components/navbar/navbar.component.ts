@@ -6,6 +6,7 @@ import { moduleImports } from '../../app.module.imports';
 import { primengmodules } from '../../primeng.imports';
 import { Router } from '@angular/router';
 import { icon } from '@fortawesome/fontawesome-svg-core';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-navbar',
@@ -17,8 +18,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core';
 })
 export class NavbarComponent implements OnChanges, OnInit {
   fullName: any;
-closeCallback($event: MouseEvent) {
-}
+  closeCallback($event: MouseEvent) {}
   showNavOptions: boolean = false;
   isLoggedIn: boolean = false;
   items: any = [];
@@ -28,55 +28,73 @@ closeCallback($event: MouseEvent) {
   constructor(
     private dataService: DataService,
     public authService: AuthService,
+    private messageService: MessageService,
     private router: Router
   ) {}
   ngOnInit(): void {
-    this.checkUserState()
+    this.checkUserState();
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
-    
   }
 
-  checkUserState(){
+  checkUserState() {
     setInterval(() => {
-      this.checkUserLoggedIn()
+      this.checkUserLoggedIn();
     }, 1000);
   }
-  
+
   logout() {
     this.authService.logout();
     this.checkUserLoggedIn();
-    this.sideOptions = false
+    this.sideOptions = false;
+    this.showToast('info',`You've been logged out.`)
   }
-  getUserInitials() {}
-  
-  checkUserLoggedIn() {
-    this.authService.isLoggedIn$.subscribe((status) => {
-      
-      this.initials = localStorage.getItem('userInitials');
-      this.fullName = localStorage.getItem('fullName');
-      this.isLoggedIn = status;
-      // console.log(this.isLoggedIn,status);
-      this.loadMenu();
-    },(err:any)=>{
 
-    },()=>{
-      this.loadMenu()
+  showToast(
+    severity: any = 'info',
+    summary: any = '',
+    detail: any = '',
+    timeout: any = 4000
+  ) {
+    this.messageService.add({
+      severity: severity,
+      summary: summary,
+      detail: detail,
+      key: 'tl',
     });
+    setTimeout(() => {
+      this.messageService.clear();
+    }, timeout);
   }
 
-  
+  getUserInitials() {}
+
+  checkUserLoggedIn() {
+    this.authService.isLoggedIn$.subscribe(
+      (status) => {
+        this.initials = localStorage.getItem('userInitials');
+        this.fullName = localStorage.getItem('fullName');
+        this.isLoggedIn = status;
+        // console.log(this.isLoggedIn,status);
+        this.loadMenu();
+      },
+      (err: any) => {},
+      () => {
+        this.loadMenu();
+      }
+    );
+  }
+
   toggleDarkMode() {
     const element = document.querySelector('html');
     element?.classList.toggle('my-app-dark');
   }
 
   openSettings() {
-    this.sideOptions = true
+    this.sideOptions = true;
   }
 
-  
   loadMenu() {
     this.items = [
       {

@@ -1,31 +1,32 @@
 <div class="flex justify-content-center align-items-center" style="min-height: 100vh;">
+
     <div class="col-12 md:col-6 lg:col-4">
         <p-card class="card-shadow">
             <div class="grid formgrid">
                 <div class="col-12">
-                    <h2 class="text-center">Login</h2>
+                    <h2 class="text-center text-2xl font-bold mb-3">Login</h2>
                 </div>
                 <div class="col-12 flex justify-content-center">
                     <form [formGroup]="loginForm" (ngSubmit)="onLogin()" >
                         <!-- Username -->
-                        <div class="col-12  field">
+                        <div class="col-12 field">
                             <label for="username" class="block">Username</label>
-                            <input type="text" id="username" pInputText formControlName="username" placeholder="Enter username"
+                            <input class=" w-full px-3 h-11 text-md " type="text" id="username" pInputText formControlName="username" placeholder="Enter username"
                                  aria-describedby="usernameHelp" />
                             <small id="usernameHelp"
                                 *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
-                                class="p-error">Please enter a valid username.</small>
+                                class="p-error block">Please enter a valid username.</small>
                         </div>
         
                         <!-- Password -->
                         <div class="col-12  field">
                             <label for="password" class="block">Password</label>
-                            <p-password [toggleMask]="true" id="password" formControlName="password"
+                            <p-password [toggleMask]="true" id="password" formControlName="password" class="w-full"
                                 placeholder="Enter password" [feedback]="false" 
                                 aria-describedby="passwordHelp"></p-password>
                             <small id="passwordHelp"
                                 *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-                                class="p-error">Password is required.</small>
+                                class="p-error block">Password is required.</small>
                         </div>
         
                         <!-- Login Button -->
@@ -45,14 +46,15 @@
     
                 <!-- Forgot Password -->
                 <div class="col-12 flex justify-content-center mt-4">
-                    <a href="#" class="link">Forgot password?</a>
+                    <!-- <a href="#" class="link">Forgot password?</a> -->
+                    <p-button label="Forgot password?" [link]="true" />
                 </div>
     
                 <!-- Register Option -->
-                <div class="col -12 flex justify-content-center mt-3">
-                    <span>Don't have an account?</span>
-                    <a href="/register" class="link ml-2">Register</a>
-                </div>
+                <!-- <div class="col-12 flex justify-content-center ">
+                    <span class="mt-2">Don't have an account?</span>
+                    <p-button label="Register" [link]="true" class="" [routerLink]="'/register'"/>
+                </div> -->
 
             </div>
         </p-card>

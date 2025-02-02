@@ -8,6 +8,7 @@ import { compImports } from '../../app.component.imports';
 import { moduleImports } from '../../app.module.imports';
 import { primengmodules } from '../../primeng.imports';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-creation-page',
@@ -27,13 +28,14 @@ import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 export class CreationPageComponent implements OnInit {
   constructor(
     private dataService: DataService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private messageService: MessageService
   ) {
     this.initForm();
   }
 
   //variables
-  firstName:any = localStorage.getItem('fullName')?.split(" ").at(0)
+  firstName: any = localStorage.getItem('fullName')?.split(' ').at(0);
   workTypeCategory: any;
   taskForm!: FormGroup;
   selectedWorkType: any | undefined;
@@ -69,6 +71,22 @@ export class CreationPageComponent implements OnInit {
     this.workTypeCategory = [...this.workTypeCategory];
   }
 
+  showToast(
+    severity: any = 'info',
+    summary: any = '',
+    detail: any = '',
+    timeout: any = 4000
+  ) {
+    this.messageService.add({
+      severity: severity,
+      summary: summary,
+      detail: detail,
+      key: 'tl',
+    });
+    setTimeout(() => {
+      this.messageService.clear();
+    }, timeout);
+  }
   onSubmit(): void {
     let payload = {
       userId: 1,
@@ -80,17 +98,10 @@ export class CreationPageComponent implements OnInit {
     if (this.taskForm?.valid) {
       console.log(payload);
       let res: any;
-      this.dataService.createJournal(payload).subscribe(
-        (res: any) => {
-          res = res;
-        },
-        (err: any) => {
-          res = err.message;
-        },
-        () => {
-          alert(res);
-        }
-      );
+      this.dataService.createJournal(payload).subscribe((res:any)=>{
+      },(err:any)=>{
+        this.showToast('success','Journal Entry Created!');
+      });
 
       this.taskForm.reset();
     }

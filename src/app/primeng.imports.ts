@@ -14,6 +14,7 @@ import { EditorModule } from 'primeng/editor';
 import { DrawerModule } from 'primeng/drawer';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DatePickerModule } from 'primeng/datepicker';
+import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 export const primengmodules = [
   ButtonModule,
@@ -27,10 +28,12 @@ export const primengmodules = [
   FloatLabelModule,
   MenubarModule,
   AvatarModule,
+  ToastModule,
   AvatarGroupModule,
   BadgeModule,
   OverlayBadgeModule,
   ToggleButtonModule,
   ToggleSwitchModule,
   AutoCompleteModule,
+  
 ];

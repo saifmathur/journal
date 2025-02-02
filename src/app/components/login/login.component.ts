@@ -5,12 +5,11 @@ import { primengmodules } from '../../primeng.imports';
 import { moduleImports } from '../../app.module.imports';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
-  // imports: [ FormsModule, ReactiveFormsModule, CardModule, InputTextModule,ButtonModule,PasswordModule,CommonModule],
   imports: [...primengmodules, ...moduleImports],
-
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   providers: [AuthService],
@@ -20,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.initForm();
   }
@@ -31,7 +31,21 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(5)]],
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
+
+  showToast(severity:any='info',summary:any="",detail:any="",timeout:any=4000) {
+    this.messageService.add({
+      severity: severity,
+      summary: summary,
+      detail: detail,
+      key: "tl"
+    });
+    setTimeout(() => {
+      this.messageService.clear() 
+    }, timeout);
+  }
 
   onGoogleSignIn() {
     alert('Coming soon!');
@@ -43,11 +57,16 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', response.token);
           localStorage.setItem('userInitials', response.initials);
           localStorage.setItem('fullName', response.fullName);
+          this.showToast('success', response.message,'Welcome, '+response.fullName+"!")
           this.router.navigate(['/create']);
         },
         error: (err) => {
           console.error('Login failed:', err);
-          alert('Invalid credentials');
+          this.showToast(
+            'error',
+            'Login Failed!',
+            'Invalid credentials',
+          );
         },
       });
     }

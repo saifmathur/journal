@@ -41,7 +41,7 @@ export class AuthService {
 
   login(credentials: { email: string; password: string }) {
     this.isLoggedInSubject.next(true);
-    return this.http.post<{ token: string; initials: string; fullName:string }>(
+    return this.http.post<{ token: string; initials: string; fullName:string; message:string }>(
       `${this.apiUrl}/login`,
       credentials
     );
