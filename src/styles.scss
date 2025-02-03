@@ -9,7 +9,12 @@
 //   border-radius: 12px;
 //   padding: 16px;
 // }
-
+p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break: break-word;
+}
 .custom-spinner {
   position: fixed;
   top: 50%;

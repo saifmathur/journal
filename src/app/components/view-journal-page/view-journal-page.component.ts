@@ -33,6 +33,7 @@ export class ViewJournalPageComponent implements OnInit {
   selectedWorkType: any | undefined;
   entryDate: any;
   viewDialog: any;
+  stats: any;
   constructor(
     private dataService: DataService,
     private confirmationService: ConfirmationService,
@@ -49,6 +50,7 @@ export class ViewJournalPageComponent implements OnInit {
   description: any;
   ngOnInit(): void {
     this.getAllEntriesForUser();
+    this.getJournalStats();
     this.initForm();
   }
 
@@ -142,6 +144,12 @@ export class ViewJournalPageComponent implements OnInit {
       description: ['', Validators.required],
       date: ['', Validators.required],
     });
+  }
+
+  getJournalStats(){
+    this.dataService.getJournaStats().subscribe(res=>{
+      this.stats = res
+    })
   }
 
   onSubmit(): void {

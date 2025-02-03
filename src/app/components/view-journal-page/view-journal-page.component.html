@@ -12,43 +12,6 @@
   <!-- Entries Table Section -->
   <main class="flex-grow flex items-center justify-center w-full px-4">
     <div class="bg-gray-800 p-12 rounded-lg shadow-2xl w-full max-w-7xl m-6">
-      <!-- Table -->
-      <!-- <div class="overflow-x-auto">
-        <table class="min-w-full bg-gray-700 text-gray-300 rounded-lg shadow-md">
-          <thead>
-            <tr class="border-b border-gray-600">
-              <th class="py-3 px-4 text-left">Date of Entry</th>
-              <th class="py-3 px-4 text-left">Task Name</th>
-              <th class="py-3 px-4 text-left">Description</th>
-              <th class="py-3 px-4 text-left">Type of Work</th>
-              <th class="py-3 px-4 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let entry of entries" class="hover:bg-gray-600 border-b border-gray-600">
-              <td class="py-3 px-4">{{entry.date}}</td>
-              <td class="py-3 px-4">{{entry.entryTitle}}</td>
-              <td [innerHTML]="entry.description" class="py-3 px-4"></td>
-              <td class="py-3 px-4">{{entry.workType.workType}}</td>
-              <td class="py-3 px-4">
-                <button
-                  class="bg-teal-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-teal-400 transition-all duration-200">
-                  <i class="fa-regular fa-pen-to-square"></i>
-                </button>
-                <button
-                  class="bg-teal-500 text-white px-4 py-2 mr-2 rounded-md hover:bg-teal-400 transition-all duration-200">
-                  <i class="fa-solid fa-download"></i>
-                </button>
-                <button (click)="confirmDelete(entry)"
-                  class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-400 transition-all duration-200">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
-
       <p-table stripedRows  [scrollable]="true" scrollHeight="350px" [value]="entries" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
         [rowsPerPageOptions]="[5, 10, 20]">
         <ng-template #header>

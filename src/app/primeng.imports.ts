@@ -19,6 +19,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { DividerModule } from 'primeng/divider';
 import { DialogModule } from 'primeng/dialog';
 import { FieldsetModule } from 'primeng/fieldset';
 export const primengmodules = [
@@ -26,6 +27,7 @@ export const primengmodules = [
   CardModule,
   ConfirmPopupModule,
   DatePickerModule,
+  DividerModule,
   TooltipModule,
   ProgressSpinnerModule,
   TableModule,

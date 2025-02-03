@@ -70,11 +70,21 @@
         </div>
     </ng-template>
     <p>
-       Give entry stats here
+        Welcome! Your thoughts matter — write freely and check your stats below.
+    <p-fieldset legend="Journal Entries" [toggleable]="true">
+        <p class="font-bold"><i class="pi pi-book"></i>&nbsp;&nbsp;Total: {{stats?.totalEntryCount}} </p>
+        <p class="font-bold"><i class="pi pi-code"></i>&nbsp;&nbsp;Development: {{stats?.Development}} </p>
+        <p class="font-bold"><i class="pi pi-users"></i>&nbsp;&nbsp;Management: {{stats?.Management}} </p>
+        <p class="font-bold"><i class="pi pi-address-book"></i>&nbsp;&nbsp;Other: {{stats?.Other}} </p>
+
+    </p-fieldset>
+    
+    <!-- <p class="text-xl">Development: {{stats.Development}} <i class="pi pi-code"></i></p>
+    <p class="text-xl">Management: {{stats.Management}} <i class="pi pi-users"></i></p> -->
     </p>
     <ng-template #footer>
         <div class="flex items-center gap-2">
-            <button pButton label="Account" icon="pi pi-user" class="w-full" outlined></button>
+            <button [disabled]="true" pButton label="Account" icon="pi pi-user" class="w-full" outlined></button>
             <button pButton label="Logout" (click)="logout()" icon="pi pi-sign-out" class="w-full" severity="danger" text></button>
         </div>
     </ng-template>

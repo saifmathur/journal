@@ -42,6 +42,12 @@ export class DataService {
     );
   }
 
+  // journal/journalStats
+  getJournaStats(): Observable<any> {
+    const headers = this.auth.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/journal/journalStats`, { headers });
+  }
+
   // PUT request
   updateData(id: string, data: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/data/${id}`, data);

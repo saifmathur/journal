@@ -18,6 +18,7 @@ import { MessageService } from 'primeng/api';
 })
 export class NavbarComponent implements OnChanges, OnInit {
   fullName: any;
+  stats: any;
   closeCallback($event: MouseEvent) {}
   showNavOptions: boolean = false;
   isLoggedIn: boolean = false;
@@ -33,11 +34,16 @@ export class NavbarComponent implements OnChanges, OnInit {
   ) {}
   ngOnInit(): void {
     this.checkUserState();
+    this.getJournalStats()
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
   }
-
+  getJournalStats() {
+    this.dataService.getJournaStats().subscribe((res) => {
+      this.stats = res;
+    });
+  }
   checkUserState() {
     setInterval(() => {
       this.checkUserLoggedIn();
@@ -48,7 +54,7 @@ export class NavbarComponent implements OnChanges, OnInit {
     this.authService.logout();
     this.checkUserLoggedIn();
     this.sideOptions = false;
-    this.showToast('info',`You've been logged out.`)
+    this.showToast('info', `You've been logged out.`);
   }
 
   showToast(
