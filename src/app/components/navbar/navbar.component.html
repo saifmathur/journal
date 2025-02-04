@@ -52,8 +52,8 @@
                 </ng-template>
             </p-toggleswitch>
             <a pRipple *ngIf="!this.authService.isLoggedIn()" [routerLink]="'/register'" class="p-menubar-item-link">Register</a>
-            <p-button *ngIf="this.authService.isLoggedIn()" variant="text" icon="pi pi-user" (click)="openSettings()" />
-            <p-avatar shape="circle" *ngIf="this.authService.isLoggedIn()" label="{{initials}}" styleClass="mr-2" size="large"
+            <!-- <p-button *ngIf="this.authService.isLoggedIn()" variant="text" icon="pi pi-user" (click)="openSettings()" /> -->
+            <p-avatar pRipple (click)="openSettings()" shape="circle" *ngIf="this.authService.isLoggedIn()" label="{{initials}}" styleClass="mr-2 cursor" size="large"
                 [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }" />
         </div>
     </ng-template>

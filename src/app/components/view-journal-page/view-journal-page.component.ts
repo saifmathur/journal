@@ -121,7 +121,7 @@ export class ViewJournalPageComponent implements OnInit {
     this.getWorkTypeData();
     console.log(entry);
     this.selectedWorkType = entry.workType;
-    this.entryDate = new Date(entry.date);
+    this.entryDate = new Date();
 
     this.description = entry.description;
     console.log(this.description);
@@ -161,6 +161,8 @@ export class ViewJournalPageComponent implements OnInit {
       description: this.description,
       date: this.entryDate,
     };
+    console.log(this.entryDate);
+    
     if (this.taskForm?.valid) {
       console.log(payload);
       let res: any;

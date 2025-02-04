@@ -64,7 +64,7 @@
       </div>
       <div class="col-10 field">
         <label for="date" class="block text-lg font-medium text-gray-300">Date</label>
-        <p-datepicker [(ngModel)]="entryDate" formControlName="date" [iconDisplay]="'input'" [showIcon]="true"
+        <p-datepicker [(ngModel)]="entryDate" [ngModelOptions]="{standalone: true}" [iconDisplay]="'input'" [showIcon]="true"
           inputId="icondisplay" />
       </div>
       <div class="col-2 mt-5">
