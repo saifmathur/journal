@@ -16,20 +16,20 @@
             <h1 class="text-4xl font-extrabold leading-tight mb-4">{{firstName}}'s Personal Journal</h1>
             <p class="text-xl text-gray-400">Stay organized and focused by tracking tasks, projects, and ideas
                 effortlessly.</p>
+            <h1 class="mt-1 text-xl font-extrabold leading-tight ">Create your entry below</h1>
         </div>
     </header>
 
     <!-- Main Form Section -->
     <main id="form" class="">
-        <div class="bg-gray-800 p-5 rounded-lg shadow-2xl w-full max-w-4xl m-6">
-            <h2 class="text-3xl font-bold mb-6 text-center">Task Form</h2>
-            <form class="grid " [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+        <div class="bg-gray-800 p-4 rounded-lg shadow-2xl w-full  m-3">
+            <!-- <h2 class="text-3xl font-bold mb-5 text-center">Task Form</h2> -->
+            <form class="grid flex" [formGroup]="taskForm" (ngSubmit)="onSubmit()">
                 <!-- Task Input -->
-                <div class="col-7 field">
-                    <label for="task" class="block text-lg font-medium text-gray-300">Task</label>
+                <div class="col-6 field">
+                    <label for="task" class="block text-lg font-medium text-gray-300">Title</label>
                     <input pInputText type="text" id="task" formControlName="taskName"
-                        class=" w-full px-3 h-11 text-lg "
-                        placeholder="Enter the task name" />
+                        class=" w-full px-3 h-11 text-lg " placeholder="Enter Title" />
                 </div>
                 <!-- Type of Work Dropdown -->
                 <div class="col-4 field">
@@ -38,18 +38,20 @@
                         [ngModelOptions]="{standalone: true}" [dropdown]="true" [suggestions]="workTypeCategory"
                         field="workType" (completeMethod)="search($event)" />
                 </div>
+                <div class="col-2 field">
+                    <label for="date" class="block text-lg font-medium w-full text-gray-300">Date</label>
+                    <p-datepicker [(ngModel)]="entryDate" formControlName="date" [iconDisplay]="'input'" class="p-datepicker"
+                        [showIcon]="true" inputId="icondisplay" />
+                </div>
                 <!-- Description Input -->
                 <div class="col-12 field">
                     <label for="description" class="block text-lg font-medium text-gray-300">Description</label>
-                    <p-editor formControlName="description" [style]="{ height: '320px' }" />
+                    <p-editor formControlName="description" [style]="{ height: '300px' }" />
                 </div>
-                <div class="col-10 field">
-                    <label for="date" class="block text-lg font-medium text-gray-300">Date</label>
-                    <p-datepicker [(ngModel)]="entryDate" formControlName="date" [iconDisplay]="'input'" [showIcon]="true"
-                        inputId="icondisplay" />
-                </div>
-                <div class="col-2 mt-5">
-                    <button [disabled]="taskForm.invalid" pButton type="submit" class="w-full text-white py-2 shadow-md text-lg font-semibold ">
+
+                <div class="col-2 ">
+                    <button [disabled]="taskForm.invalid" pButton type="submit"
+                        class="w-full text-white py-2 shadow-md text-lg font-semibold ">
                         Submit
                     </button>
                 </div>

@@ -34,7 +34,7 @@ export class NavbarComponent implements OnChanges, OnInit {
   ) {}
   ngOnInit(): void {
     this.checkUserState();
-    this.getJournalStats()
+    
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
@@ -42,6 +42,11 @@ export class NavbarComponent implements OnChanges, OnInit {
   getJournalStats() {
     this.dataService.getJournaStats().subscribe((res) => {
       this.stats = res;
+    },(err:any)=>{
+
+    },()=>{
+    this.sideOptions = true;
+
     });
   }
   checkUserState() {
@@ -97,8 +102,9 @@ export class NavbarComponent implements OnChanges, OnInit {
     element?.classList.toggle('my-app-dark');
   }
 
-  openSettings() {
-    this.sideOptions = true;
+  async openSettings() {
+    this.getJournalStats();
+
   }
 
   loadMenu() {

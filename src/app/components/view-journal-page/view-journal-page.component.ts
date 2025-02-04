@@ -50,7 +50,7 @@ export class ViewJournalPageComponent implements OnInit {
   description: any;
   ngOnInit(): void {
     this.getAllEntriesForUser();
-    this.getJournalStats();
+    //this.getJournalStats();
     this.initForm();
   }
 

@@ -19,6 +19,7 @@
             <th style="width:25%">Date of Entry</th>
             <th style="width:25%">Title</th>
             <th style="width:25%">Type of Work</th>
+            <th style="width:25%">Last Modified</th>
             <th style="width:25%">Action</th>
           </tr>
         </ng-template>
@@ -27,6 +28,8 @@
             <td>{{ customer.date | date:'fullDate'  }}</td>
             <td>{{ customer.entryTitle }}</td>
             <td>{{customer.workType?.workType}}</td>
+            <td>{{customer.lastModified| date:'fullDate'}}</td>
+
             <td class="flex">
               <button pTooltip="Edit" (click)="showEdit(customer)" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-pencil'" size="small" text></button>
               <button pTooltip="Delete" (click)="deleteConfirm($event,customer.id)" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-trash'"  size="small" text></button>
@@ -64,7 +67,7 @@
       </div>
       <div class="col-10 field">
         <label for="date" class="block text-lg font-medium text-gray-300">Date</label>
-        <p-datepicker [(ngModel)]="entryDate" [ngModelOptions]="{standalone: true}" [iconDisplay]="'input'" [showIcon]="true"
+        <p-datepicker dateFormat="yy-mm-dd" [(ngModel)]="entryDate" dataType="string" [ngModelOptions]="{standalone: true}" [iconDisplay]="'input'" [showIcon]="true"
           inputId="icondisplay" />
       </div>
       <div class="col-2 mt-5">
