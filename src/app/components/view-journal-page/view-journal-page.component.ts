@@ -31,7 +31,7 @@ export class ViewJournalPageComponent implements OnInit {
       const url = window.URL.createObjectURL(res);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'exported-data.xlsx';
+      a.download = 'journal-entries-'+new Date().toLocaleDateString()+'.xlsx';
       a.click();
       window.URL.revokeObjectURL(url);
       console.log(res);
