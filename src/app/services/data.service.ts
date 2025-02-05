@@ -48,6 +48,14 @@ export class DataService {
     return this.http.get(`${this.apiUrl}/journal/journalStats`, { headers });
   }
 
+  exportAllJournal(): Observable<any> {
+    const headers = this.auth.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/journal/exportAllEntries`, {
+      responseType: 'blob',
+      headers: headers,
+    });
+  }
+
   // PUT request
   updateData(id: string, data: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/data/${id}`, data);

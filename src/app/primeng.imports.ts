@@ -11,6 +11,8 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { EditorModule } from 'primeng/editor';
+import { InputNumberModule } from 'primeng/inputnumber';
+
 import { DrawerModule } from 'primeng/drawer';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -29,7 +31,7 @@ export const primengmodules = [
   DatePickerModule,
   DividerModule,
   TooltipModule,
-  ProgressSpinnerModule,
+  ProgressSpinnerModule,InputNumberModule,
   TableModule,
   DrawerModule,
   FieldsetModule,

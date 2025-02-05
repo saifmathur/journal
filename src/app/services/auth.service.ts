@@ -21,10 +21,11 @@ export class AuthService {
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
   private hasToken(): boolean {
-    if (localStorage.getItem('token')!=undefined){
-      return true
-    } else{return false}
-      
+    if (localStorage.getItem('token') != undefined) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Set the token for token-based authentication
@@ -41,18 +42,24 @@ export class AuthService {
 
   login(credentials: { email: string; password: string }) {
     this.isLoggedInSubject.next(true);
-    return this.http.post<{ token: string; initials: string; fullName:string; message:string }>(
-      `${this.apiUrl}/login`,
-      credentials
-    );
+    return this.http.post<{
+      token: string;
+      initials: string;
+      fullName: string;
+      message: string;
+    }>(`${this.apiUrl}/login`, credentials);
   }
 
-  updateState(){
+  updateState() {
     this.isLoggedInSubject.next(true);
   }
 
   register(data: any) {
     return this.http.post(`${this.apiUrl}/register`, data);
+  }
+
+  checkDuplicateUserName(data: any) {
+    return this.http.post(`${this.apiUrl}/checkDuplicateUserName`, {username:data});
   }
 
   isLoggedIn(): boolean {
@@ -68,7 +75,7 @@ export class AuthService {
       },
       (err: any) => {},
       () => {
-        localStorage.clear()
+        localStorage.clear();
       }
     );
   }

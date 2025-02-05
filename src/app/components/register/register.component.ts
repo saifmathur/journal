@@ -8,13 +8,15 @@ import { primengmodules } from '../../primeng.imports';
 
 @Component({
   selector: 'app-register',
-  imports: [...moduleImports,...primengmodules],
+  imports: [...moduleImports, ...primengmodules],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   standalone: true,
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  value2: any;
+  dob: any;
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +36,13 @@ export class RegisterComponent implements OnInit {
       addressLine2: ['', [Validators.required]],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], // Validates 10-digit phone numbers
     });
+  }
+
+  checkDuplicateUserName(){
+    this.authService.checkDuplicateUserName(this.registerForm.value.username).subscribe(res=>{
+      console.log(res);
+      
+    })
   }
 
   onSubmit() {

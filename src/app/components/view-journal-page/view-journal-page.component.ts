@@ -26,6 +26,17 @@ import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
   providers: [DataService, DatePipe, ConfirmationService],
 })
 export class ViewJournalPageComponent implements OnInit {
+  exportAllEntries() {
+    this.dataService.exportAllJournal().subscribe((res) => {
+      const url = window.URL.createObjectURL(res);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'exported-data.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+      console.log(res);
+    });
+  }
   editDialog: boolean = false;
   editEntry: any;
   workTypeCategory: any;
@@ -43,7 +54,7 @@ export class ViewJournalPageComponent implements OnInit {
   date: Date = new Date();
   entryToDelete: any;
   firstName: any = localStorage.getItem('fullName')?.split(' ').at(0);
-  fullName: any = localStorage.getItem('fullName')
+  fullName: any = localStorage.getItem('fullName');
 
   entries: any;
   isModalVisible: boolean = false;
@@ -146,10 +157,10 @@ export class ViewJournalPageComponent implements OnInit {
     });
   }
 
-  getJournalStats(){
-    this.dataService.getJournaStats().subscribe(res=>{
-      this.stats = res
-    })
+  getJournalStats() {
+    this.dataService.getJournaStats().subscribe((res) => {
+      this.stats = res;
+    });
   }
 
   onSubmit(): void {
@@ -162,7 +173,7 @@ export class ViewJournalPageComponent implements OnInit {
       date: this.entryDate,
     };
     console.log(this.entryDate);
-    
+
     if (this.taskForm?.valid) {
       console.log(payload);
       let res: any;

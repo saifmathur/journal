@@ -1,78 +1,128 @@
-<div class="h-screen flex items-center justify-center bg-gray-900">
-    <p-card >
-        <h2 class="text-3xl font-semibold text-center mb-6">Create Your Account</h2>
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()"
-            class="space-y-6 sm:space-y-8 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6 lg:space-y-0">
-            <div class="space-y-4">
-                <label for="username" class="block text-lg font-medium text-gray-300">Username</label>
-                <input pInputText id="username" formControlName="username" type="text"
-                    class="p-inputtext-md" />
-                <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
-                    class="text-sm text-red-500 mt-2">Username is required.</div>
-            </div>
-            <div class="space-y-4">
-                <label for="password" class="block text-lg font-medium text-gray-300">Password</label>
-                <input pInputText id="password" formControlName="password" type="password"
-                    class="p-inputtext-md" />
-                <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-                    class="text-sm text-red-500 mt-2">Password is required.</div>
-            </div>
-            <div class="space-y-4">
-                <label for="DOB" class="block text-lg font-medium text-gray-300">Date of Birth</label>
-                <input pInputText id="DOB" formControlName="DOB" type="date"
-                    class="p-inputtext-md" />
-                <div *ngIf="registerForm.get('DOB')?.invalid && registerForm.get('DOB')?.touched"
-                    class="text-sm text-red-500 mt-2">Date of Birth is required.</div>
-            </div>
-            <div class="space-y-4">
-                <label for="email" class="block text-lg font-medium text-gray-300">Email</label>
-                <input pInputText id="email" formControlName="email" type="email"
-                    class="p-inputtext-md" />
-                <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
-                    class="text-sm text-red-500 mt-2">Please enter a valid email.</div>
-            </div>
-            <div class="space-y-4">
-                <label for="addressLine1" class="block text-lg font-medium text-gray-300">Address Line 1</label>
-                <input pInputText id="addressLine1" formControlName="addressLine1" type="text"
-                    class="p-inputtext-md" />
-                <div *ngIf="registerForm.get('addressLine1')?.invalid && registerForm.get('addressLine1')?.touched"
-                    class="text-sm text-red-500 mt-2">Address Line 1 is required.</div>
-            </div>
-            <div class="space-y-4">
-                <label for="addressLine2" class="block text-lg font-medium text-gray-300">Address Line 2</label>
-                <input pInputText id="addressLine2" formControlName="addressLine2" type="text"
-                    class="p-inputtext-md" />
-                <div *ngIf="registerForm.get('addressLine2')?.invalid && registerForm.get('addressLine2')?.touched"
-                    class="text-sm text-red-500 mt-2">Address Line 2 is required.</div>
-            </div>
-            <div class="space-y-4">
-                <label for="firstName" class="block text-lg font-medium text-gray-300">First Name</label>
-                <input pInputText id="firstName" formControlName="firstName" type="text"
-                    class="p-inputtext-md" />
-                <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
-                    class="text-sm text-red-500 mt-2">First name is required.</div>
-            </div>
-            <div class="space-y-4">
-                <label for="lastName" class="block text-lg font-medium text-gray-300">Last Name</label>
-                <input pInputText id="lastName" formControlName="lastName" type="text"
-                    class="p-inputtext-md" />
-                <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="text-sm text-red-500 mt-2">
-                    Last name is required.</div>
-            </div>
+<div class="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+    <p-card class="w-full max-w-5xl">
+        <div class="p-6">
+            <h2 class="text-3xl font-semibold text-center mb-8 text-gray-200">
+                Create Your Account
+            </h2>
 
-            <div class="space-y-4">
-                <label for="phone" class="block text-lg font-medium text-gray-300">Phone</label>
-                <input pInputText id="phone" formControlName="phone" type="tel"
-                    class="p-inputtext-md" />
-                <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched"
-                    class="text-sm text-red-500 mt-2">Phone number is required.</div>
-            </div>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <!-- Username -->
+                <div>
+                    <label for="username" class="block text-lg font-medium text-gray-300 mb-2">Username</label>
+                    <input pInputText id="username" formControlName="username" type="text"
+                        class="w-full p-inputtext-md" />
+                    <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+                        class="text-sm text-red-500 mt-1">
+                        Username is required.
+                    </div>
+                </div>
 
-            <div class="w-full lg:col-span-2 xl:col-span-3 flex justify-center mt-8">
-                <button pButton type="submit" [disabled]="registerForm.invalid">
-                    Register
-                </button>
-            </div>
-        </form>
+                <!-- Password -->
+                <div>
+                    <label for="password" class="block text-lg font-medium text-gray-300 mb-2">Password</label>
+                    <p-password id="password" formControlName="password" 
+                        class="w-full p-inputtext-md" />
+                    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                        class="text-sm text-red-500 mt-1">
+                        Password is required.
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-lg font-medium text-gray-300 mb-2">Confirm Password</label>
+                    <p-password id="password" formControlName="password" class="w-full p-inputtext-md" />
+                    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                        class="text-sm text-red-500 mt-1">
+                        Password is required.
+                    </div>
+                </div>
+
+                <!-- Date of Birth -->
+                <div>
+                    <label for="DOB" class="block text-lg font-medium text-gray-300 mb-2">Date of Birth</label>
+                    <!-- <p-date pInputText id="DOB" formControlName="DOB" type="date" class="w-full p-inputtext-md" /> -->
+                    <p-datepicker [(ngModel)]="dob" formControlName="DOB" [iconDisplay]="'input'" class="p-datepicker" [showIcon]="true" inputId="icondisplay" />
+                    <div *ngIf="registerForm.get('DOB')?.invalid && registerForm.get('DOB')?.touched"
+                        class="text-sm text-red-500 mt-1">
+                        Date of Birth is required.
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-lg font-medium text-gray-300 mb-2">Email</label>
+                    <input pInputText id="email" formControlName="email" type="email" class="w-full p-inputtext-md" />
+                    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                        class="text-sm text-red-500 mt-1">
+                        Please enter a valid email.
+                    </div>
+                </div>
+
+                <!-- Address Line 1 -->
+                <div>
+                    <label for="addressLine1" class="block text-lg font-medium text-gray-300 mb-2">Address Line
+                        1</label>
+                    <input pInputText id="addressLine1" formControlName="addressLine1" type="text"
+                        class="w-full p-inputtext-md" />
+                    <div *ngIf="registerForm.get('addressLine1')?.invalid && registerForm.get('addressLine1')?.touched"
+                        class="text-sm text-red-500 mt-1">
+                        Address Line 1 is required.
+                    </div>
+                </div>
+
+                <!-- Address Line 2 -->
+                <div>
+                    <label for="addressLine2" class="block text-lg font-medium text-gray-300 mb-2">Address Line
+                        2</label>
+                    <input pInputText id="addressLine2" formControlName="addressLine2" type="text"
+                        class="w-full p-inputtext-md" />
+                    <div *ngIf="registerForm.get('addressLine2')?.invalid && registerForm.get('addressLine2')?.touched"
+                        class="text-sm text-red-500 mt-1">
+                        Address Line 2 is required.
+                    </div>
+                </div>
+
+                <!-- First Name -->
+                <div>
+                    <label for="firstName" class="block text-lg font-medium text-gray-300 mb-2">First Name</label>
+                    <input pInputText id="firstName" formControlName="firstName" type="text"
+                        class="w-full p-inputtext-md" />
+                    <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+                        class="text-sm text-red-500 mt-1">
+                        First name is required.
+                    </div>
+                </div>
+
+                <!-- Last Name -->
+                <div>
+                    <label for="lastName" class="block text-lg font-medium text-gray-300 mb-2">Last Name</label>
+                    <input pInputText id="lastName" formControlName="lastName" type="text"
+                        class="w-full p-inputtext-md" />
+                    <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
+                        class="text-sm text-red-500 mt-1">
+                        Last name is required.
+                    </div>
+                </div>
+
+                <!-- Phone -->
+                <div>
+                    <label for="phone" class="block text-lg font-medium text-gray-300 mb-2">Phone</label>
+                    <!-- <input pInputText id="phone" formControlName="phone" type="tel" class="w-full p-inputtext-md" /> -->
+                    <p-inputnumber [(ngModel)]="value2" formControlName="phone" mode="decimal" [min]="10" [max]="10" inputId="withoutgrouping" [useGrouping]="false" />
+                    <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched"
+                        class="text-sm text-red-500 mt-1">
+                        Phone number is required.
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="w-full sm:col-span-2 lg:col-span-3 flex justify-center mt-8">
+                    <button pButton type="submit" [disabled]="registerForm.invalid"
+                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                        Register
+                    </button>
+                </div>
+            </form>
+        </div>
     </p-card>
 </div>
