@@ -8,7 +8,7 @@
     </div>
 </header>
 <div class="grid justify-content-center m-6">
-    <p-table [value]="reminders" [tableStyle]="{ 'min-width': '80rem' }">
+    <p-table [value]="reminders" [scrollable]="true" scrollHeight="500px" [tableStyle]="{ 'min-width': '80rem' }">
         <ng-template #caption>
             <div class="flex">
                 <p-button (onClick)="showReminderDialog()" label="Create Reminder" [outlined]="true"
@@ -53,7 +53,7 @@
                 <td>
                     <button pTooltip="Edit" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-pencil'"
                         size="small" text></button>
-                    <button pTooltip="Delete" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-trash'"
+                    <button pTooltip="Delete" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-trash'" (click)="deleteConfirm($event,reminder.id)"
                         size="small" text></button>
 
                 </td>
@@ -66,6 +66,7 @@
         </ng-template>
     </p-table>
 </div>
+<p-confirmpopup />
 
 <p-dialog header="Create Reminder" [dismissableMask]="true" [modal]="true" [(visible)]="showCreateReminderDialog"
     [style]="{ width: '35rem' }">

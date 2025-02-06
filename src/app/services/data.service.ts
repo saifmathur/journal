@@ -72,9 +72,9 @@ export class DataService {
     return this.http.get(`${this.apiUrl}/journal/deleteEntry/${id}`);
   }
 
-  changeReminderActiveState(id:any){
+  changeReminderActiveState(id: any) {
     const headers = this.auth.getAuthHeaders();
-    return this.http.get<{reminders:Object;state:boolean}>(
+    return this.http.get<{ reminders: Object; state: boolean }>(
       `${this.apiUrl}/reminder/setReminderActiveOrInactive/${id}`,
       { headers: headers }
     );
@@ -92,5 +92,10 @@ export class DataService {
     return this.http.post(`${this.apiUrl}/reminder/createReminder`, payload, {
       headers: headers,
     });
+  }
+
+  deleteReminder(id: string): Observable<any> {
+    const headers = this.auth.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/reminder/delete/${id}`,{headers: headers});
   }
 }

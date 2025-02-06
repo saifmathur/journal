@@ -6,56 +6,36 @@ import { AuthService } from '../../services/auth.service';
 import { DataService } from '../../services/data.service';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-reminders',
   templateUrl: './reminders.component.html',
   styleUrl: './reminders.component.scss',
   imports: [...compImports, ...moduleImports, ...primengmodules],
-  providers: [AuthService, DataService],
+  providers: [AuthService, DataService, ConfirmationService],
   standalone: true,
 })
-export class RemindersComponent implements OnInit{
+export class RemindersComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private formBuilder: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {}
   ngOnInit(): void {
-    this.initForm()
+    this.initForm();
     this.getAllReminders();
   }
 
-  getAllReminders(){
-    this.dataService.getRemindersForUser().subscribe(res=>{
-      this.reminders = res
-    })
+  getAllReminders() {
+    this.dataService.getRemindersForUser().subscribe((res) => {
+      this.reminders = res;
+    });
   }
 
   reminderForm!: FormGroup;
-  reminders: any = [
-    // {
-    //   id: 1,
-    //   title: 'Create reminders page',
-    //   notes: 'Create reminders page with CRUD operations',
-    //   reminderDate: '2025-02-05',
-    //   reminderTime: '3:00 PM',
-    //   frequency: 'Daily',
-    //   priority: 'High',
-    //   isActive: true,
-    // },
-    // {
-    //   id: 2,
-    //   title: 'Create reminders page',
-    //   notes: 'Create reminders page with CRUD operations',
-    //   reminderDate: '2025-02-05',
-    //   reminderTime: '3:00 PM',
-    //   frequency: 'Weekly',
-    //   priority: 'Low',
-    //   isActive: false,
-    // },
-  ];
+  reminders: any = [ ];
   showCreateReminderDialog: boolean = false;
   reminderDate: any;
   items: any = [
@@ -99,7 +79,7 @@ export class RemindersComponent implements OnInit{
       case 'medium':
         return 'warn';
       case 'low':
-        return 'info';
+        return 'success';
       case 'active':
         return 'info';
       case 'disabled':
@@ -112,14 +92,16 @@ export class RemindersComponent implements OnInit{
   changeReminderState(reminder: any) {
     // reminder.isActive = !reminder.isActive
     let res1: Object;
-    this.dataService.changeReminderActiveState(reminder.id).subscribe(res=>{
-      this.reminders = res.reminders
-      this.showToast('info', 'Reminder state changed!');
-    },(err:any)=>{
-      this.showToast('error','Failed to change reminder state!')
-    })
+    this.dataService.changeReminderActiveState(reminder.id).subscribe(
+      (res) => {
+        this.reminders = res.reminders;
+        this.showToast('info', 'Reminder state changed!');
+      },
+      (err: any) => {
+        this.showToast('error', 'Failed to change reminder state!');
+      }
+    );
   }
-
 
   showReminderDialog() {
     this.showCreateReminderDialog = true;
@@ -164,27 +146,49 @@ export class RemindersComponent implements OnInit{
       console.log(payload);
       if (
         this.reminderForm.value.reminderDate < new Date() ||
-        this.reminderForm.value.reminderTime< new Date().getTime()
+        this.reminderForm.value.reminderTime < new Date().getTime()
       ) {
         this.showToast('warn', 'Please select a valid date and time');
       }
-      
+
       let res: any;
       this.dataService.createReminder(payload).subscribe(
         (res: any) => {
-          this.reminders = res
+          this.reminders = res;
         },
         (err: any) => {
           this.showToast('error', 'Failed to create.');
-
-        },()=>{
+        },
+        () => {
           this.showToast('success', 'Reminder Created!');
-
         }
       );
 
       this.reminderForm.reset();
     }
     this.showCreateReminderDialog = false;
+  }
+
+  deleteConfirm(event: Event, id: any) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Do you want to delete this record?',
+      icon: 'pi pi-info-circle',
+      rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Delete',
+        severity: 'danger',
+      },
+      accept: () => {
+        this.dataService.deleteReminder(id).subscribe(res=>{
+          this.reminders = res
+        });
+      },
+      reject: () => {},
+    });
   }
 }
