@@ -126,14 +126,23 @@ export class NavbarComponent implements OnChanges, OnInit {
         },
       },
       {
-        label: 'Expense Tracker',
-        icon: 'pi pi-indian-rupee',
-        disabled: true,
+        label: 'Reminders',
+        icon: 'pi pi-bell',
+        disabled: false,
         visible: this.authService.isLoggedIn() ? true : false,
         command: () => {
-          this.router.navigate(['/entries']);
+          this.router.navigate(['/reminders']);
         },
       },
+      // {
+      //   label: 'Expense Tracker',
+      //   icon: 'pi pi-indian-rupee',
+      //   disabled: true,
+      //   visible: this.authService.isLoggedIn() ? true : false,
+      //   command: () => {
+      //     this.router.navigate(['/entries']);
+      //   },
+      // },
     ];
   }
 }

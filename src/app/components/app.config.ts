@@ -8,6 +8,7 @@ import { routes } from '../app.routes';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { LoaderInterceptor } from '../interceptors/loader.interceptor';
+import Lara from '@primeng/themes/lara';
 import { MessageService } from 'primeng/api';
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: Material,
+        preset: Lara,
         options: {
           darkModeSelector: '.my-app-dark',
         },
