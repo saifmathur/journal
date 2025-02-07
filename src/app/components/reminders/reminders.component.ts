@@ -35,7 +35,7 @@ export class RemindersComponent implements OnInit {
   }
 
   reminderForm!: FormGroup;
-  reminders: any = [ ];
+  reminders: any = [];
   showCreateReminderDialog: boolean = false;
   reminderDate: any;
   items: any = [
@@ -104,6 +104,7 @@ export class RemindersComponent implements OnInit {
   }
 
   showReminderDialog() {
+    this.reminderForm.reset();
     this.showCreateReminderDialog = true;
   }
   showToast(
@@ -134,39 +135,64 @@ export class RemindersComponent implements OnInit {
     });
   }
   onSubmit(): void {
-    let payload = {
-      title: this.reminderForm.value.title,
-      notes: this.reminderForm.value.notes,
-      reminderDate: this.reminderForm.value.reminderDate,
-      reminderTime: this.reminderForm.value.reminderTime,
-      priority: this.reminderForm.value.priority?.priority,
-      frequency: this.reminderForm.value.frequency?.freqName,
-    };
+    let payload;
+    if (!this.reminderToUpdate) {
+      payload = {
+        title: this.reminderForm.value.title,
+        notes: this.reminderForm.value.notes,
+        reminderDate: new Date(this.reminderForm.value.reminderDate).toISOString(),
+        reminderTime: this.reminderForm.value.reminderTime,
+        priority: this.reminderForm.value.priority?.priority,
+        frequency: this.reminderForm.value.frequency?.freqName,
+      };
+    } else {
+      payload = {
+        reminderId: this.reminderToUpdate.id || null,
+        title: this.reminderForm.value.title || this.reminderToUpdate.title,
+        notes: this.reminderForm.value.notes || this.reminderToUpdate.notes,
+        reminderDate:
+          new Date(this.reminderForm.value.reminderDate).toISOString() ||
+          new Date(this.reminderToUpdate.reminderDate).toISOString(),
+        reminderTime:
+          this.reminderForm.value.reminderTime ||
+          this.reminderToUpdate.reminderTime,
+        priority:
+          this.reminderForm.value.priority.priority ||
+          this.reminderToUpdate.priority,
+        frequency:
+          this.reminderForm.value.frequency.freqName ||
+          this.reminderToUpdate.frequency,
+      };
+    }
     if (this.reminderForm?.valid) {
       console.log(payload);
+
       if (
         this.reminderForm.value.reminderDate < new Date() ||
         this.reminderForm.value.reminderTime < new Date().getTime()
       ) {
         this.showToast('warn', 'Please select a valid date and time');
       }
-
-      let res: any;
-      this.dataService.createReminder(payload).subscribe(
-        (res: any) => {
-          this.reminders = res;
-        },
-        (err: any) => {
-          this.showToast('error', 'Failed to create.');
-        },
-        () => {
-          this.showToast('success', 'Reminder Created!');
-        }
-      );
-
-      this.reminderForm.reset();
+      this.createUpdateReminder(payload);
+      //console.log(this.reminderForm.value);
     }
     this.showCreateReminderDialog = false;
+    this.reminderToUpdate = null;
+  }
+
+  createUpdateReminder(payload: any) {
+    this.dataService.createReminder(payload).subscribe(
+      (res: any) => {
+        this.reminders = res;
+      },
+      (err: any) => {
+        this.showToast('error', 'Failed to create.');
+      },
+      () => {
+        this.showToast('success', 'Reminder Created!');
+        this.reminderForm.reset();
+      }
+    );
   }
 
   deleteConfirm(event: Event, id: any) {
@@ -184,11 +210,35 @@ export class RemindersComponent implements OnInit {
         severity: 'danger',
       },
       accept: () => {
-        this.dataService.deleteReminder(id).subscribe(res=>{
-          this.reminders = res
+        this.dataService.deleteReminder(id).subscribe((res) => {
+          this.reminders = res;
         });
       },
       reject: () => {},
     });
+  }
+
+  reminderToUpdate: any;
+
+  editReminder(reminder: any) {
+    console.log(reminder);
+    const datetime = new Date(
+      `${reminder.reminderDate}T${reminder.reminderTime}`
+    ).toISOString();
+
+    this.showCreateReminderDialog = true;
+    let payload = {
+      reminderId: reminder.id,
+      title: reminder.title,
+      notes: reminder.notes,
+      reminderDate: datetime,
+      reminderTime: datetime,
+      priority: reminder.priority,
+      frequency: reminder.frequency,
+    };
+    console.log(payload);
+    this.reminderToUpdate = reminder;
+
+    this.reminderForm.patchValue(payload);
   }
 }

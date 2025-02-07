@@ -7,8 +7,8 @@
         </p>
     </div>
 </header>
-<div class="grid justify-content-center m-6">
-    <p-table [value]="reminders" [scrollable]="true" scrollHeight="500px" [tableStyle]="{ 'min-width': '80rem' }">
+<div class="grid justify-content-center m-6 p-datatable-wrapper w-full">
+    <p-table [value]="reminders"  [scrollable]="true" scrollHeight="500px" >
         <ng-template #caption>
             <div class="flex">
                 <p-button (onClick)="showReminderDialog()" label="Create Reminder" [outlined]="true"
@@ -40,10 +40,10 @@
                 <td>{{ reminder.title }}</td>
                 <td>{{ reminder.notes }}</td>
                 <td>{{ reminder.reminderDate }}</td>
-                <td>{{ reminder.reminderTime }}</td>
-                <td>{{ reminder.frequency==""?'--':reminder.frequency      }}</td>
+                <td>{{ reminder.reminderDate+'T'+reminder.reminderTime+'Z' | date : 'shortTime' }}</td>
+                <td>{{ reminder?.frequency==""?'--':reminder.frequency      }}</td>
                 <td>
-                    <p-badge [value]="reminder.priority" [severity]="getSeverity(reminder.priority)" />
+                    <p-badge [value]="reminder?.priority" [severity]="getSeverity(reminder?.priority)" />
                 </td>
                 <td>
                     <p-button (onClick)="changeReminderState(reminder)"
@@ -51,7 +51,7 @@
                         [severity]="getSeverity(reminder.active?'active':'disabled')" />
                 </td>
                 <td>
-                    <button pTooltip="Edit" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-pencil'"
+                    <button pTooltip="Edit" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-pencil'" (click)="editReminder(reminder)"
                         size="small" text></button>
                     <button pTooltip="Delete" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-trash'" (click)="deleteConfirm($event,reminder.id)"
                         size="small" text></button>
@@ -92,8 +92,6 @@
         </div>
         <div class="flex items-center col-6 field">
             <p-floatlabel >
-                <!-- <p-datepicker showIcon iconDisplay="input" [timeOnly]="true" appendTo="body"
-                    [(ngModel)]="reminderDate" /> -->
                     <p-datepicker formControlName="reminderTime" [(ngModel)]="reminderDate" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" inputId="templatedisplay">
                         <ng-template #inputicon let-clickCallBack="clickCallBack">
                             <i class="pi pi-clock" (click)="clickCallBack($event)"></i>
@@ -103,18 +101,16 @@
             </p-floatlabel>
         </div>
         <div class="flex items-center col-6 field">
-            <!-- [(ngModel)]="priority" -->
             <p-autocomplete formControlName="priority"  [dropdown]="true" [suggestions]="items" field="priority" appendTo="body"
                 (completeMethod)="search($event)" />
         </div>
         <div class="flex items-center col-6 field">
-            <!-- [(ngModel)]="frequency" -->
             <p-autocomplete formControlName="frequency"  [dropdown]="true" [suggestions]="frequencyitems" field="freqName" appendTo="body"
                 (completeMethod)="searchFreq($event)" />
         </div>
         <div class=" col-12 flex justify-end gap-2">
             <p-button label="Cancel" severity="secondary" (click)="showCreateReminderDialog = false" />
-            <p-button label="Save" (click)="onSubmit()" type="submit" />
+            <p-button label="Save"  type="submit" />
         </div>
     </form>
 </p-dialog>
