@@ -12,7 +12,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { EditorModule } from 'primeng/editor';
 import { InputNumberModule } from 'primeng/inputnumber';
-
+import { ChipModule } from 'primeng/chip';
 import { DrawerModule } from 'primeng/drawer';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -23,14 +23,16 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { DividerModule } from 'primeng/divider';
 import { DialogModule } from 'primeng/dialog';
+import { FocusTrapModule } from 'primeng/focustrap';
 import { FieldsetModule } from 'primeng/fieldset';
 export const primengmodules = [
   ButtonModule,
   CardModule,
-  ConfirmPopupModule,
+  ConfirmPopupModule,FocusTrapModule,
   DatePickerModule,
   DividerModule,
   TooltipModule,
+  ChipModule,
   ProgressSpinnerModule,InputNumberModule,
   TableModule,
   DrawerModule,

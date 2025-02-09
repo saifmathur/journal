@@ -1,0 +1,124 @@
+<header
+    class="w-full bg-gradient-to-r from-gray-700 to-gray-800 py-12 flex items-center justify-center text-center text-white">
+    <div class="w-full max-w-3xl px-6">
+        <h1 class="text-3xl font-extrabold leading-tight mb-4">Reminders</h1>
+        <p class="text-xl text-gray-400">Never miss a task again! Set reminders and stay on top of your schedule
+            effortlessly.
+        </p>
+    </div>
+</header>
+<div class="grid justify-content-center m-6 p-datatable-wrapper w-full">
+    <p-table [value]="reminders" [scrollable]="true" scrollHeight="500px" [lazy]="true" [style]="{}">
+        <ng-template #caption>
+            <div class="flex">
+                <p-button (onClick)="showReminderDialog()" label="Create Reminder" 
+                    icon="pi pi-plus" class="" />
+                <div class="ml-auto">
+                    <!-- <p-floatlabel variant="on">
+                        <p-datepicker [(ngModel)]="date" inputId="on_label" showIcon iconDisplay="input" />
+                        <label for="on_label">Export by date</label>
+                    </p-floatlabel> -->
+                    <p-button  (onClick)="getAllReminders()"  [outlined]="true"
+                        icon="pi pi-refresh" pTooltip="Refresh" tooltipPosition="top"/>
+                    <p-button [disabled]="disableTurnOffAll" (onClick)="disableAll()" class="ml-1" label="Turn Off All Reminders" [outlined]="true"
+                        icon="pi pi-bell-slash" />
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th>Title</th>
+                <th>Notes</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Frequency</th>
+                <th>Priority</th>
+                <th>Active</th>
+                <th>Actions</th>
+
+            </tr>
+        </ng-template>
+        <ng-template #body let-reminder>
+            <tr>
+                <td>{{ reminder.title }}</td>
+                <td>{{ reminder.notes }}</td>
+                <!-- <td>{{ reminder.reminderDate }}</td> -->
+                <td>{{ reminder.reminderDate }}</td>
+                <td>{{reminder.reminderTime}}</td>
+                <td>
+                    <p-chip label="{{reminder.frequency?reminder.frequency:'Once'}}" />
+                    <!-- {{ reminder?.frequency==""?'--':reminder.frequency }} -->
+                </td>
+                <td>
+                    <p-badge [value]="reminder?.priority" [severity]="getSeverity(reminder?.priority)" />
+                </td>
+                <td>
+                    <p-button (onClick)="changeReminderState(reminder)"
+                        icon="{{reminder.active?'pi pi-bell':'pi pi-bell-slash'}}" [rounded]="true" [text]="true"
+                        [severity]="getSeverity(reminder.active?'active':'disabled')" />
+                </td>
+                <td>
+                    <button pTooltip="Edit" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-pencil'"
+                        (click)="editReminder(reminder)" size="small" text></button>
+                    <button pTooltip="Delete" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-trash'"
+                        (click)="deleteConfirm($event,reminder.id)" size="small" text></button>
+
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="7">No reminders found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<p-confirmpopup />
+
+<p-dialog header="Create Reminder" [dismissableMask]="true" [modal]="true" [(visible)]="showCreateReminderDialog"
+    [style]="{ width: '35rem' }">
+    <form class="grid flex mt-3" [formGroup]="reminderForm" (ngSubmit)="onSubmit()">
+        <div class="flex items-center gap-4  col-6 field">
+            <p-floatlabel class="w-full">
+                <input formControlName="title" pInputText id="over_label" autocomplete="off" class="w-full" />
+                <label for="over_label">Title</label>
+            </p-floatlabel>
+        </div>
+        <div class="flex items-center col-6 field">
+            <p-floatlabel class="w-full">
+                <input pInputText id="over_label" formControlName="notes" autocomplete="off" class="w-full" />
+                <label for="over_label">Notes</label>
+            </p-floatlabel>
+        </div>
+        <div class="flex items-center col-6 field">
+            <p-floatlabel>
+                <p-datepicker formControlName="reminderDate" showIcon iconDisplay="input" appendTo="body"
+                    [(ngModel)]="reminderDate" [showButtonBar]="true" />
+                <label for="over_label">Add Date</label>
+            </p-floatlabel>
+        </div>
+        <div class="flex items-center col-6 field">
+            <p-floatlabel>
+                <p-datepicker formControlName="reminderTime" [(ngModel)]="reminderDate" [iconDisplay]="'input'"
+                    [showIcon]="true" [timeOnly]="true" inputId="templatedisplay">
+                    <ng-template #inputicon let-clickCallBack="clickCallBack">
+                        <i class="pi pi-clock" (click)="clickCallBack($event)"></i>
+                    </ng-template>
+                </p-datepicker>
+                <label for="over_label">Add Time</label>
+            </p-floatlabel>
+        </div>
+        <div class="flex items-center col-6 field">
+            <p-autocomplete formControlName="priority" [dropdown]="true" [suggestions]="items" field="priority"
+                appendTo="body" (completeMethod)="search($event)" />
+        </div>
+        <div class="flex items-center col-6 field">
+            <p-autocomplete formControlName="frequency" [dropdown]="true" [suggestions]="frequencyitems"
+                field="freqName" appendTo="body" (completeMethod)="searchFreq($event)" />
+        </div>
+        <div class=" col-12 flex justify-end gap-2">
+            <p-button label="Cancel" severity="secondary" (click)="showCreateReminderDialog = false" />
+            <p-button label="Save" type="submit" />
+        </div>
+    </form>
+</p-dialog>

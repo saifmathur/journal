@@ -4,6 +4,7 @@ import { ViewJournalPageComponent } from './components/view-journal-page/view-jo
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { RemindersComponent } from './components/reminders/reminders.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Default route
@@ -19,4 +20,9 @@ export const routes: Routes = [
   },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
+  {
+    path: 'reminders',
+    component: RemindersComponent,
+    canActivate: [AuthGuard],
+  },
 ];
