@@ -23,11 +23,12 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { DividerModule } from 'primeng/divider';
 import { DialogModule } from 'primeng/dialog';
+import { FocusTrapModule } from 'primeng/focustrap';
 import { FieldsetModule } from 'primeng/fieldset';
 export const primengmodules = [
   ButtonModule,
   CardModule,
-  ConfirmPopupModule,
+  ConfirmPopupModule,FocusTrapModule,
   DatePickerModule,
   DividerModule,
   TooltipModule,

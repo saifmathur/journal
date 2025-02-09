@@ -19,6 +19,7 @@ import { MessageService } from 'primeng/api';
 export class NavbarComponent implements OnChanges, OnInit {
   fullName: any;
   stats: any;
+  logoSrc: string | undefined;
   closeCallback($event: MouseEvent) {}
   showNavOptions: boolean = false;
   isLoggedIn: boolean = false;
@@ -34,20 +35,21 @@ export class NavbarComponent implements OnChanges, OnInit {
   ) {}
   ngOnInit(): void {
     this.checkUserState();
-    
+    this.setLogo();
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
   }
   getJournalStats() {
-    this.dataService.getJournaStats().subscribe((res) => {
-      this.stats = res;
-    },(err:any)=>{
-
-    },()=>{
-    this.sideOptions = true;
-
-    });
+    this.dataService.getJournaStats().subscribe(
+      (res) => {
+        this.stats = res;
+      },
+      (err: any) => {},
+      () => {
+        this.sideOptions = true;
+      }
+    );
   }
   checkUserState() {
     setInterval(() => {
@@ -100,11 +102,17 @@ export class NavbarComponent implements OnChanges, OnInit {
   toggleDarkMode() {
     const element = document.querySelector('html');
     element?.classList.toggle('my-app-dark');
+    this.setLogo();
   }
 
   async openSettings() {
     this.getJournalStats();
+  }
 
+  setLogo(): void {
+    const isDarkMode =
+      document.documentElement.classList.contains('my-app-dark');
+    this.logoSrc = isDarkMode ? 'assets/dark.png' : 'assets/4.png';
   }
 
   loadMenu() {

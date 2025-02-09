@@ -26,11 +26,22 @@ export class RemindersComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.getAllReminders();
+    
+
   }
+
 
   getAllReminders() {
     this.dataService.getRemindersForUser().subscribe((res) => {
       this.reminders = res;
+    },(err:any)=>{
+
+    },()=>{
+      this.disableTurnOffAll =
+        this.reminders.filter((element: any) => element.active == true).length >
+        0
+          ? false
+          : true;
     });
   }
 
@@ -99,6 +110,12 @@ export class RemindersComponent implements OnInit {
       },
       (err: any) => {
         this.showToast('error', 'Failed to change reminder state!');
+      },()=>{
+        this.disableTurnOffAll =
+          this.reminders.filter((element: any) => element.active == true)
+            .length > 0
+            ? false
+            : true;
       }
     );
   }
@@ -135,13 +152,22 @@ export class RemindersComponent implements OnInit {
     });
   }
   onSubmit(): void {
+    console.log(new Date(this.reminderForm.value.reminderTime));
+    
+    const localTime = new Date(this.reminderForm.value.reminderTime); // User selected value
+    const utcTime = new Date(
+      localTime.getTime() - localTime.getTimezoneOffset() * 60000
+    );
+    console.log("Correct time:" + utcTime.toISOString()); // Correct UTC time for backend
     let payload;
     if (!this.reminderToUpdate) {
       payload = {
         title: this.reminderForm.value.title,
         notes: this.reminderForm.value.notes,
-        reminderDate: new Date(this.reminderForm.value.reminderDate).toISOString(),
-        reminderTime: this.reminderForm.value.reminderTime,
+        reminderDate: new Date(
+          this.reminderForm.value.reminderDate
+        ).toISOString(),
+        reminderTime: utcTime.toISOString(),
         priority: this.reminderForm.value.priority?.priority,
         frequency: this.reminderForm.value.frequency?.freqName,
       };
@@ -154,13 +180,12 @@ export class RemindersComponent implements OnInit {
           new Date(this.reminderForm.value.reminderDate).toISOString() ||
           new Date(this.reminderToUpdate.reminderDate).toISOString(),
         reminderTime:
-          this.reminderForm.value.reminderTime ||
-          this.reminderToUpdate.reminderTime,
+          utcTime.toISOString() || this.reminderToUpdate.reminderTime,
         priority:
           this.reminderForm.value.priority.priority ||
           this.reminderToUpdate.priority,
         frequency:
-          this.reminderForm.value.frequency.freqName ||
+          this.reminderForm.value.frequency?.freqName ||
           this.reminderToUpdate.frequency,
       };
     }
@@ -218,21 +243,34 @@ export class RemindersComponent implements OnInit {
     });
   }
 
+  disableTurnOffAll:boolean = false
+  disableAll(){
+    this.dataService.disableAllReminders().subscribe(res=>{
+      this.reminders = res
+    },(err:any)=>{
+
+    },()=>{
+      this.disableTurnOffAll = this.reminders.filter((element:any)=>element.active == true).length > 0?false:true
+    })
+  }
   reminderToUpdate: any;
 
   editReminder(reminder: any) {
     console.log(reminder);
-    const datetime = new Date(
-      `${reminder.reminderDate}T${reminder.reminderTime}`
-    ).toISOString();
+    const localTime = new Date(reminder.reminderTime); // User selected value
+    const utcTime = new Date(
+      localTime.getTime() - localTime.getTimezoneOffset() * 60000
+    );
+    console.log(utcTime.toISOString()); // Correct UTC time for backend
+    
 
     this.showCreateReminderDialog = true;
     let payload = {
       reminderId: reminder.id,
       title: reminder.title,
       notes: reminder.notes,
-      reminderDate: datetime,
-      reminderTime: datetime,
+      reminderDate: reminder.reminderDate,
+      reminderTime: utcTime.toISOString(),
       priority: reminder.priority,
       frequency: reminder.frequency,
     };

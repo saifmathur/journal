@@ -98,4 +98,12 @@ export class DataService {
     const headers = this.auth.getAuthHeaders();
     return this.http.get(`${this.apiUrl}/reminder/delete/${id}`,{headers: headers});
   }
+
+
+  disableAllReminders(){
+    const headers = this.auth.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/reminder/toggleAllReminders`, {
+      headers: headers,
+    });
+  }
 }
