@@ -10,18 +10,20 @@
                 <div>
                     <label for="username" class="block text-lg font-medium text-gray-300 mb-2">Username</label>
                     <input pInputText id="username" formControlName="username" type="text"
-                        class="w-full p-inputtext-md" />
+                        (focusout)="checkDuplicateUserName()" class="w-full p-inputtext-md" />
                     <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
                         class="text-sm text-red-500 mt-1">
                         Username is required.
+                    </div>
+                    <div *ngIf="usernameTaken" class="text-sm text-red-500 mt-1">
+                        Username is taken.
                     </div>
                 </div>
 
                 <!-- Password -->
                 <div>
                     <label for="password" class="block text-lg font-medium text-gray-300 mb-2">Password</label>
-                    <p-password id="password" formControlName="password" 
-                        class="w-full p-inputtext-md" />
+                    <p-password id="password" formControlName="password" class="w-full p-inputtext-md" />
                     <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
                         class="text-sm text-red-500 mt-1">
                         Password is required.
@@ -30,10 +32,14 @@
 
                 <div>
                     <label for="password" class="block text-lg font-medium text-gray-300 mb-2">Confirm Password</label>
-                    <p-password id="password" formControlName="password" class="w-full p-inputtext-md" />
-                    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                    <p-password id="password" formControlName="password2" class="w-full p-inputtext-md"
+                        (focusout)="checkPasswordMatch()" />
+                    <!-- <div *ngIf="registerForm.get('password2')?.invalid && registerForm.get('password2')?.touched"
                         class="text-sm text-red-500 mt-1">
                         Password is required.
+                    </div> -->
+                    <div *ngIf="!passwordsMatch">
+                        Passwords dont match.
                     </div>
                 </div>
 
@@ -41,7 +47,8 @@
                 <div>
                     <label for="DOB" class="block text-lg font-medium text-gray-300 mb-2">Date of Birth</label>
                     <!-- <p-date pInputText id="DOB" formControlName="DOB" type="date" class="w-full p-inputtext-md" /> -->
-                    <p-datepicker [(ngModel)]="dob" formControlName="DOB" [iconDisplay]="'input'" class="p-datepicker" [showIcon]="true" inputId="icondisplay" />
+                    <p-datepicker [(ngModel)]="dob" formControlName="DOB" [iconDisplay]="'input'" class="p-datepicker"
+                        [showIcon]="true" inputId="icondisplay" />
                     <div *ngIf="registerForm.get('DOB')?.invalid && registerForm.get('DOB')?.touched"
                         class="text-sm text-red-500 mt-1">
                         Date of Birth is required.
@@ -108,7 +115,8 @@
                 <div>
                     <label for="phone" class="block text-lg font-medium text-gray-300 mb-2">Phone</label>
                     <!-- <input pInputText id="phone" formControlName="phone" type="tel" class="w-full p-inputtext-md" /> -->
-                    <p-inputnumber [(ngModel)]="value2" formControlName="phone" mode="decimal" [min]="10" [max]="10" inputId="withoutgrouping" [useGrouping]="false" />
+                    <p-inputnumber [(ngModel)]="value2" formControlName="phone" mode="decimal" [min]="10" [max]="10"
+                        inputId="withoutgrouping" [useGrouping]="false" />
                     <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched"
                         class="text-sm text-red-500 mt-1">
                         Phone number is required.
@@ -117,8 +125,7 @@
 
                 <!-- Submit Button -->
                 <div class="w-full sm:col-span-2 lg:col-span-3 flex justify-center mt-8">
-                    <button pButton type="submit" [disabled]="registerForm.invalid"
-                        class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                    <button pButton type="submit" [disabled]="registerForm.invalid" class="px-6 py-3 text-white">
                         Register
                     </button>
                 </div>

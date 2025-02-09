@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { moduleImports } from '../../app.module.imports';
 import { primengmodules } from '../../primeng.imports';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
@@ -21,28 +22,42 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      password2: ['', [Validators.required, Validators.minLength(6)]],
       DOB: ['', [Validators.required]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      addressLine1: ['', [Validators.required]],
-      addressLine2: ['', [Validators.required]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], // Validates 10-digit phone numbers
+      addressLine1: [''],
+      addressLine2: [''],
+      phone: [''], // Validates 10-digit phone numbers
+      // [Validators.required, Validators.pattern('^[0-9]{10}$')]
     });
   }
+  usernameTaken: boolean = false;
+  checkDuplicateUserName() {
+    this.authService
+      .checkDuplicateUserName(this.registerForm.value.username)
+      .subscribe((res: any) => {
+        this.usernameTaken = res;
+      });
+  }
 
-  checkDuplicateUserName(){
-    this.authService.checkDuplicateUserName(this.registerForm.value.username).subscribe(res=>{
-      console.log(res);
-      
-    })
+  passwordsMatch: boolean = true;
+  checkPasswordMatch() {
+    if (
+      this.registerForm.value.password !== this.registerForm.value.password2
+    ) {
+      this.passwordsMatch = false;
+    } else {
+      this.passwordsMatch = true;
+    }
   }
 
   onSubmit() {
@@ -53,15 +68,33 @@ export class RegisterComponent implements OnInit {
       });
       this.authService.register(formData).subscribe({
         next: (response) => {
-          alert('User Registered!');
+          this.showToast('success','User Registered!');
           this.registerForm.reset();
           this.router.navigate(['/login']);
         },
         error: (err) => {
           console.error('Registration failed:', err);
-          alert('Registration failed!');
+          // alert('Registration failed!');
+          this.showToast('error','Registration Failed!')
         },
       });
     }
+  }
+
+  showToast(
+    severity: any = 'info',
+    summary: any = '',
+    detail: any = '',
+    timeout: any = 4000
+  ) {
+    this.messageService.add({
+      severity: severity,
+      summary: summary,
+      detail: detail,
+      key: 'tl',
+    });
+    setTimeout(() => {
+      this.messageService.clear();
+    }, timeout);
   }
 }

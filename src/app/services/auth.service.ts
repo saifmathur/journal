@@ -59,7 +59,7 @@ export class AuthService {
   }
 
   checkDuplicateUserName(data: any) {
-    return this.http.post(`${this.apiUrl}/checkDuplicateUserName`, {username:data});
+    return this.http.get(`${this.apiUrl}/checkDuplicateUserName/${data}`);
   }
 
   isLoggedIn(): boolean {
