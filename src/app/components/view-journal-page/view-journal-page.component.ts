@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -12,6 +12,7 @@ import {
 import { primengmodules } from '../../primeng.imports';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+import { CreationPageComponent } from "../creation-page/creation-page.component";
 @Component({
   selector: 'app-view-journal-page',
   imports: [
@@ -20,12 +21,14 @@ import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
     ReactiveFormsModule,
     FormsModule,
     ...primengmodules,
-  ],
+    CreationPageComponent
+],
   templateUrl: './view-journal-page.component.html',
   styleUrl: './view-journal-page.component.scss',
   providers: [DataService, DatePipe, ConfirmationService],
 })
-export class ViewJournalPageComponent implements OnInit {
+export class ViewJournalPageComponent implements OnInit, OnChanges {
+addEntry: any;
   exportAllEntries() {
     this.dataService.exportAllJournal().subscribe((res) => {
       const url = window.URL.createObjectURL(res);
@@ -64,6 +67,11 @@ export class ViewJournalPageComponent implements OnInit {
     //this.getJournalStats();
     this.initForm();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      this.getAllEntriesForUser()
+  }
+  
 
   getAllEntriesForUser() {
     this.dataService.getJournalEntriesForUser().subscribe((res) => {

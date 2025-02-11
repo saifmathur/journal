@@ -119,14 +119,14 @@ export class NavbarComponent implements OnChanges, OnInit {
 
   loadMenu() {
     this.items = [
-      {
-        label: 'Home',
-        icon: 'pi pi-home',
-        visible: this.authService.isLoggedIn() ? true : false,
-        command: () => {
-          this.router.navigate(['/create']);
-        },
-      },
+      // {
+      //   label: 'Home',
+      //   icon: 'pi pi-home',
+      //   visible: this.authService.isLoggedIn() ? true : false,
+      //   command: () => {
+      //     this.router.navigate(['/entries']);
+      //   },
+      // },
       {
         label: 'Entries',
         icon: 'pi pi-book',

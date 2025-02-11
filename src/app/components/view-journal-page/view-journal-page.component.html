@@ -17,6 +17,9 @@
         <ng-template #caption>
           <div class="flex">
             <p-button label="Export All Entries" [outlined]="true" icon="pi pi-download" (onClick)="exportAllEntries()"  />
+            <p-button label="Add Entry" [outlined]="true" class="ml-2" icon="pi pi-plus" (onClick)="addEntry=true" />
+            <p-button [outlined]="true" class="ml-2" icon="pi pi-refresh" (onClick)="getAllEntriesForUser()" />
+
             <!-- <div class="ml-auto">
               <p-floatlabel variant="on">
                 <p-datepicker [(ngModel)]="date" inputId="on_label" showIcon iconDisplay="input" />
@@ -51,7 +54,9 @@
         </ng-template>
         <ng-template #emptymessage>
           <tr>
-            <td colspan="5">No customers found.</td>
+            <td colspan="5">
+              No Entries found.
+            </td>
           </tr>
         </ng-template>
       </p-table>
@@ -121,8 +126,17 @@
     </div>
   </p-dialog>
 
+
+  <p-dialog dismissableMask="true" header="Add Entry" [modal]="true" [(visible)]="addEntry"
+    [style]="{ width: '60rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+    <div class="p-d-flex p-jc-between p-ai-center">
+      <app-creation-page></app-creation-page>
+    </div>
+  </p-dialog>
+
+
   <!-- Footer Section -->
-  <footer class="w-full bg-gray-800 py-4">
+  <!-- <footer class="w-full bg-gray-800 py-4">
     <p class="text-center text-white text-sm">&copy; 2025 Journal App. All rights reserved.</p>
-  </footer>
+  </footer> -->
 </div>

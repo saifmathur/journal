@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('userInitials', response.initials);
           localStorage.setItem('fullName', response.fullName);
           this.showToast('success', response.message,'Welcome, '+response.fullName+"!")
-          this.router.navigate(['/create']);
+          this.router.navigate(['/entries']);
         },
         error: (err) => {
           console.error('Login failed:', err);

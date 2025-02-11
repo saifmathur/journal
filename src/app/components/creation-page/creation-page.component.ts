@@ -9,6 +9,7 @@ import { moduleImports } from '../../app.module.imports';
 import { primengmodules } from '../../primeng.imports';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { MessageService } from 'primeng/api';
+import { ViewJournalPageComponent } from '../view-journal-page/view-journal-page.component';
 
 @Component({
   selector: 'app-creation-page',
@@ -29,7 +30,7 @@ export class CreationPageComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private formBuilder: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {
     this.initForm();
   }
@@ -98,11 +99,12 @@ export class CreationPageComponent implements OnInit {
     if (this.taskForm?.valid) {
       console.log(payload);
       let res: any;
-      this.dataService.createJournal(payload).subscribe((res:any)=>{
-      },(err:any)=>{
-        this.showToast('success','Journal Entry Created!');
-      });
-
+      this.dataService.createJournal(payload).subscribe(
+        (res: any) => {},
+        (err: any) => {
+          this.showToast('success', 'Journal Entry Created!');
+        }
+      );
       this.taskForm.reset();
     }
   }
