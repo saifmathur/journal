@@ -7,7 +7,7 @@ import { primengmodules } from '../../primeng.imports';
 import { Router } from '@angular/router';
 import { icon } from '@fortawesome/fontawesome-svg-core';
 import { MessageService } from 'primeng/api';
-
+import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -27,6 +27,7 @@ export class NavbarComponent implements OnChanges, OnInit {
   checked: any;
   initials: any;
   sideOptions: any;
+  reminders: any;
   constructor(
     private dataService: DataService,
     public authService: AuthService,
@@ -40,16 +41,15 @@ export class NavbarComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
   }
-  getJournalStats() {
-    this.dataService.getJournaStats().subscribe(
-      (res) => {
-        this.stats = res;
-      },
-      (err: any) => {},
-      () => {
-        this.sideOptions = true;
-      }
-    );
+
+  async getActiveReminders() {
+    const res = await firstValueFrom(this.dataService.getActiveReminders());
+    this.reminders = res;
+  }
+
+  async getJournalStats() {
+    const res = await firstValueFrom(this.dataService.getJournaStats());
+    this.stats = res;
   }
   checkUserState() {
     setInterval(() => {
@@ -106,7 +106,9 @@ export class NavbarComponent implements OnChanges, OnInit {
   }
 
   async openSettings() {
-    this.getJournalStats();
+    await this.getJournalStats();
+    await this.getActiveReminders();
+    this.sideOptions = true
   }
 
   setLogo(): void {

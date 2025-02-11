@@ -54,6 +54,13 @@ export class DataService {
     return this.http.get(`${this.apiUrl}/journal/journalStats`, { headers });
   }
 
+  getActiveReminders(): Observable<any> {
+    const headers = this.auth.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/reminder/getActiveReminders`, {
+      headers,
+    });
+  }
+
   exportAllJournal(): Observable<any> {
     const headers = this.auth.getAuthHeaders();
     return this.http.get(`${this.apiUrl}/journal/exportAllEntries`, {
@@ -96,11 +103,12 @@ export class DataService {
 
   deleteReminder(id: string): Observable<any> {
     const headers = this.auth.getAuthHeaders();
-    return this.http.get(`${this.apiUrl}/reminder/delete/${id}`,{headers: headers});
+    return this.http.get(`${this.apiUrl}/reminder/delete/${id}`, {
+      headers: headers,
+    });
   }
 
-
-  disableAllReminders(){
+  disableAllReminders() {
     const headers = this.auth.getAuthHeaders();
     return this.http.get(`${this.apiUrl}/reminder/toggleAllReminders`, {
       headers: headers,

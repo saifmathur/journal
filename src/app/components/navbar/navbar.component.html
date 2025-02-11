@@ -55,9 +55,11 @@
                     <i [ngClass]="['!text-xs', 'pi', checked ? 'pi-moon' : 'pi-sun']"></i>
                 </ng-template>
             </p-toggleswitch>
-            <a pRipple *ngIf="!this.authService.isLoggedIn()" [routerLink]="'/register'" class="p-menubar-item-link">Register</a>
+            <a pRipple *ngIf="!this.authService.isLoggedIn()" [routerLink]="'/register'"
+                class="p-menubar-item-link">Register</a>
             <!-- <p-button *ngIf="this.authService.isLoggedIn()" variant="text" icon="pi pi-user" (click)="openSettings()" /> -->
-            <p-avatar pRipple (click)="openSettings()" shape="circle" *ngIf="this.authService.isLoggedIn()" label="{{initials}}" styleClass="mr-2 cursor" size="large"
+            <p-avatar pRipple (click)="openSettings()" shape="circle" *ngIf="this.authService.isLoggedIn()"
+                label="{{initials}}" styleClass="mr-2 cursor" size="large"
                 [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }" />
         </div>
     </ng-template>
@@ -68,28 +70,32 @@
 <p-drawer [(visible)]="sideOptions" position="right" [closable]="true">
     <ng-template #header>
         <div class="flex items-center gap-2">
-        <p-avatar shape="circle" label="{{this.initials}}" styleClass="mr-2" size="large"
-            [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }" />
+            <p-avatar shape="circle" label="{{this.initials}}" styleClass="mr-2" size="large"
+                [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }" />
             <span class="font-bold">{{this.fullName}}</span>
         </div>
     </ng-template>
-    <p>
+    <p class="mb-3">
         Welcome! Your thoughts matter — write freely and check your stats below.
-    <p-fieldset legend="Journal Entries" [toggleable]="true">
-        <p class="font-bold"><i class="pi pi-book"></i>&nbsp;&nbsp;Total: {{stats?.totalEntryCount}} </p>
-        <p class="font-bold"><i class="pi pi-code"></i>&nbsp;&nbsp;Development: {{stats?.Development}} </p>
-        <p class="font-bold"><i class="pi pi-users"></i>&nbsp;&nbsp;Management: {{stats?.Management}} </p>
-        <p class="font-bold"><i class="pi pi-address-book"></i>&nbsp;&nbsp;Other: {{stats?.Other}} </p>
+        <p-fieldset legend="Journal Entries" [toggleable]="true">
+            <p class="font-bold"><i class="pi pi-book"></i>&nbsp;&nbsp;Total: {{stats?.totalEntryCount}} </p>
+            <p class="font-bold"><i class="pi pi-code"></i>&nbsp;&nbsp;Development: {{stats?.Development}} </p>
+            <p class="font-bold"><i class="pi pi-users"></i>&nbsp;&nbsp;Management: {{stats?.Management}} </p>
+            <p class="font-bold"><i class="pi pi-address-book"></i>&nbsp;&nbsp;Other: {{stats?.Other}} </p>
 
-    </p-fieldset>
-    
-    <!-- <p class="text-xl">Development: {{stats.Development}} <i class="pi pi-code"></i></p>
+        </p-fieldset>
+
+        <!-- <p class="text-xl">Development: {{stats.Development}} <i class="pi pi-code"></i></p>
     <p class="text-xl">Management: {{stats.Management}} <i class="pi pi-users"></i></p> -->
     </p>
+    <p-fieldset legend="Reminders" class="mt-2" [toggleable]="true">
+        <p class="font-bold"><i class="pi pi-bell"></i>&nbsp;&nbsp;Active Reminders: {{reminders}} </p>
+    </p-fieldset>
     <ng-template #footer>
         <div class="flex items-center gap-2">
             <button [disabled]="true" pButton label="Account" icon="pi pi-user" class="w-full" outlined></button>
-            <button pButton label="Logout" (click)="logout()" icon="pi pi-sign-out" class="w-full" severity="danger" text></button>
+            <button pButton label="Logout" (click)="logout()" icon="pi pi-sign-out" class="w-full" severity="danger"
+                text></button>
         </div>
     </ng-template>
 </p-drawer>
