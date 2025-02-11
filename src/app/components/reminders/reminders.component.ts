@@ -152,6 +152,7 @@ export class RemindersComponent implements OnInit {
     });
   }
   onSubmit(): void {
+    
     console.log(new Date(this.reminderForm.value.reminderTime));
     
     const localTime = new Date(this.reminderForm.value.reminderTime); // User selected value
@@ -162,6 +163,7 @@ export class RemindersComponent implements OnInit {
     let payload;
     if (!this.reminderToUpdate) {
       payload = {
+        userTimeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,
         title: this.reminderForm.value.title,
         notes: this.reminderForm.value.notes,
         reminderDate: new Date(
@@ -170,9 +172,11 @@ export class RemindersComponent implements OnInit {
         reminderTime: utcTime.toISOString(),
         priority: this.reminderForm.value.priority?.priority,
         frequency: this.reminderForm.value.frequency?.freqName,
+
       };
     } else {
       payload = {
+        userTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         reminderId: this.reminderToUpdate.id || null,
         title: this.reminderForm.value.title || this.reminderToUpdate.title,
         notes: this.reminderForm.value.notes || this.reminderToUpdate.notes,
