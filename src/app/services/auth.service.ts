@@ -106,4 +106,19 @@ export class AuthService {
       this.router.navigate(['/login']);
     }
   }
+
+  googleLogin(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Google-Auth-Token': token, // Send the Google token in the header
+    });
+    this.isLoggedInSubject.next(true);
+    return this.http.post<{
+      email: string;
+      token: string;
+      initials: string;
+      fullName: string;
+      message: string;
+    }>(`${this.apiUrl}/google-login`,{ idToken: token },{headers: headers})
+  }
 }
