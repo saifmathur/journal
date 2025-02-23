@@ -25,9 +25,13 @@ import { DividerModule } from 'primeng/divider';
 import { DialogModule } from 'primeng/dialog';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { FieldsetModule } from 'primeng/fieldset';
+import { TextareaModule } from 'primeng/textarea';
+import { FileUploadModule } from 'primeng/fileupload';
 export const primengmodules = [
   ButtonModule,
   CardModule,
+  TextareaModule,
+  FileUploadModule,
   ConfirmPopupModule,FocusTrapModule,
   DatePickerModule,
   DividerModule,

@@ -5,6 +5,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RemindersComponent } from './components/reminders/reminders.component';
+import { AnalyzerComponent } from './components/analyzer/analyzer.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Default route
@@ -23,6 +24,11 @@ export const routes: Routes = [
   {
     path: 'reminders',
     component: RemindersComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'analyzer',
+    component: AnalyzerComponent,
     canActivate: [AuthGuard],
   },
 ];

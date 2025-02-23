@@ -8,5 +8,5 @@ export const compImports = [
   NavbarComponent,
   RegisterComponent,
   LoginComponent,
-  FooterComponent
+  FooterComponent,
 ];
