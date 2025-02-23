@@ -74,7 +74,7 @@ export class AnalyzerComponent implements OnInit {
     priority: string
   ): 'info' | 'success' | 'secondary' | 'warn' | 'danger' | 'primary' {
     switch (priority.toLowerCase()) {
-      case 'in progress':
+      case 'processing':
         return 'info';
       case 'generated':
         return 'success';
