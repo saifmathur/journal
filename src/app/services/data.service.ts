@@ -114,4 +114,26 @@ export class DataService {
       headers: headers,
     });
   }
+  getAllReports() {
+    const headers = this.auth.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/analyzer/getAllReports`, {
+      headers: headers,
+    });
+  }
+
+  createReport(formData: FormData) {
+    const headers = this.auth.getAuthHeaders();
+    return this.http.post(`${this.apiUrl}/analyzer/createReport`, formData, {
+      headers: headers,
+    });
+  }
+
+  downloadReport(id:any){
+    const headers = this.auth.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/analyzer/downloadReport/${id}`, {
+      headers: headers,
+      responseType: 'blob', 
+      observe: 'response',
+    });
+  }
 }

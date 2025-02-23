@@ -108,7 +108,7 @@ export class NavbarComponent implements OnChanges, OnInit {
   async openSettings() {
     await this.getJournalStats();
     await this.getActiveReminders();
-    this.sideOptions = true
+    this.sideOptions = true;
   }
 
   setLogo(): void {
@@ -144,15 +144,21 @@ export class NavbarComponent implements OnChanges, OnInit {
           this.router.navigate(['/reminders']);
         },
       },
-      // {
-      //   label: 'Expense Tracker',
-      //   icon: 'pi pi-indian-rupee',
-      //   disabled: true,
-      //   visible: this.authService.isLoggedIn() ? true : false,
-      //   command: () => {
-      //     this.router.navigate(['/entries']);
-      //   },
-      // },
+      {
+        label: 'Productivity Tools',
+        icon: 'pi pi-wrench',
+        visible: this.authService.isLoggedIn() ? true : false,
+
+        items: [
+          {
+            label: 'Resume Analyser',
+            icon: 'pi pi-chart-bar',
+            command: () => {
+              this.router.navigate(['/analyzer']);
+            }
+          },
+        ],
+      },
     ];
   }
 }

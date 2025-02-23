@@ -58,8 +58,8 @@
                         [severity]="getSeverity(reminder.active?'active':'disabled')" />
                 </td>
                 <td>
-                    <button pTooltip="Edit" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-pencil'"
-                        (click)="editReminder(reminder)" size="small" text></button>
+                    <!-- <button pTooltip="Edit" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-pencil'"
+                        (click)="editReminder(reminder)" size="small" text></button> -->
                     <button pTooltip="Delete" tooltipPosition="top" pButton pRipple type="button" [icon]="'pi pi-trash'"
                         (click)="deleteConfirm($event,reminder.id)" size="small" text></button>
 
