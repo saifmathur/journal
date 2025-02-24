@@ -40,7 +40,7 @@ export class AnalyzerComponent implements OnInit {
           report.generatedFilePath = update.generatedFilePath;
           report.status = update.status;
           console.log(report);
-          
+          this.showToast('success',report.reportName + ' is generated!')
         }
       }
     });
