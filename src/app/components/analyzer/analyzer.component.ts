@@ -29,13 +29,16 @@ export class AnalyzerComponent implements OnInit {
 
   analyzeForm!: FormGroup;
   statuses: string[] = [];
+  stagesDialog:boolean = false;
   ngOnInit(): void {
     this.initForm();
     this.getAllReports();
 
     this.websocketService.reportStatus$.subscribe((update) => {
       if (update) {
-        const reportIndex = this.reports.findIndex((r: any) => r.id === update.reportId);
+        const reportIndex = this.reports.findIndex(
+          (r: any) => r.id === update.reportId
+        );
         if (reportIndex !== -1) {
           const [report] = this.reports.splice(reportIndex, 1); // Remove the report from its current position
           report.generatedFilePath = update.generatedFilePath;
@@ -44,8 +47,7 @@ export class AnalyzerComponent implements OnInit {
           this.reports.unshift(report); // Add the report to the top of the list
 
           console.log(report);
-          if(report.status.toLowerCase().includes('generated')){
-
+          if (report.status.toLowerCase().includes('generated')) {
             this.showToast(
               'success',
               'Report with name ' + report.reportName + ' is generated!'

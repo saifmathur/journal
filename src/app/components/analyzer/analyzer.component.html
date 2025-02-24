@@ -7,10 +7,12 @@
     </div>
 </header>
 <div class="grid justify-content-center m-6 w-full p-datatable-wrapper w-full">
-    <p-table   [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"  [value]="reports" [scrollable]="true" scrollHeight="500px" [lazy]="true" class="w-5">
+    <p-table stripedRows [paginator]="true"  [rows]="6" [rowsPerPageOptions]="[5, 10, 20]"  [value]="reports" [scrollable]="true" scrollHeight="500px"  class="w-6">
         <ng-template #caption>
             <div class="flex">
                 <p-button (onClick)="showAnalyzerDialog()" label="Create Report" icon="pi pi-microchip-ai" class="" />
+                <p-button (onClick)="stagesDialog=true" [rounded]="true" severity="info" [text]="true" icon="pi pi-info-circle" class="" />
+
                 <div class="ml-auto">
                     <!-- <p-floatlabel variant="on">
                         <p-datepicker [(ngModel)]="date" inputId="on_label" showIcon iconDisplay="input" />
@@ -111,4 +113,65 @@
             <p-button label="Save" type="submit" />
         </div>
     </form>
+</p-dialog>
+
+<p-dialog header="Report Creation Stages" [style]="{ width: '35rem' }" [dismissableMask]="true" [modal]="true" [(visible)]="stagesDialog">
+    <p-stepper [value]="1" class="basis-[50rem]">
+        <p-step-list>
+            <p-step [value]="1">Queued</p-step>
+            <p-step [value]="2">Processing</p-step>
+            <p-step [value]="3">Generated</p-step>
+        </p-step-list>
+        <p-step-panels>
+            <p-step-panel [value]="1">
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-col h-48 ">
+                        <div class="border-2 p-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
+                            To generate a report, the user begins by creating the report, which involves entering the job description details and
+                            uploading their resume. After reviewing the provided information, the user submits the report for processing. Once
+                            submitted, the report is placed in a queue and will be processed shortly.
+                        </div>
+                        <div class="flex pt-6 justify-end">
+                            <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
+                                (onClick)="activateCallback(2)" />
+                        </div>
+                    </div>
+                </ng-template>
+            </p-step-panel>
+    
+            <p-step-panel [value]="2">
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-col h-48">
+                        <div
+                            class="border-2 p-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
+                            In the Processing stage, the uploaded resume is thoroughly scanned, and relevant details are extracted. Using advanced
+                            AI models, a tailored report is then prepared by analyzing the resume against the provided job description, ensuring
+                            alignment with the key skills and requirements outlined in the listing.
+                        </div>
+                    </div>
+                    <div class="flex pt-6 justify-between">
+                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left"
+                            (onClick)="activateCallback(1)" />
+                        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(3)" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+    
+            <p-step-panel [value]="3">
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-col h-48">
+                        <div
+                            class="border-2 p-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
+                            In the Generated stage, the report has been successfully created and is now available for download. The report provides
+                            insights based on the comparison between the resume and the job description, ensuring that key skills and qualifications
+                            are highlighted for optimal alignment.
+                        </div>
+                    </div>
+                    <div class="flex pt-6 justify-start">
+                        <p-button label="Back" icon="pi pi-arrow-left" iconPos="right" (onClick)="activateCallback(2)" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-panels>
+    </p-stepper>
 </p-dialog>
