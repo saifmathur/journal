@@ -8,6 +8,7 @@ import { DataService } from '../../services/data.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { FileUploadEvent } from 'primeng/fileupload';
+import { WebsocketService } from '../../services/websocket.service';
 
 @Component({
   selector: 'app-analyzer',
@@ -22,33 +23,27 @@ export class AnalyzerComponent implements OnInit {
     private dataService: DataService,
     private formBuilder: FormBuilder,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private websocketService: WebsocketService
   ) {}
 
   analyzeForm!: FormGroup;
+  statuses: string[] = [];
   ngOnInit(): void {
     this.initForm();
-    this.getAllReports()
-    // this.reports = [
-    //   {
-    //     reportName: 'New report',
-    //     fileName: 'SAIF-MATHUR-RESUME.pdf',
-    //     reportDate: '23-02-2025',
-    //     status: 'In Progress',
-    //   },
-    //   {
-    //     reportName: 'New report',
-    //     fileName: 'SAIF-MATHUR-RESUME.pdf',
-    //     reportDate: '23-02-2025',
-    //     status: 'Report Generated',
-    //   },
-    //   {
-    //     reportName: 'New report',
-    //     fileName: 'SAIF-MATHUR-RESUME.pdf',
-    //     reportDate: '23-02-2025',
-    //     status: 'Report Failed',
-    //   },
-    // ];
+    this.getAllReports();
+
+    this.websocketService.reportStatus$.subscribe((update) => {
+      if (update) {
+        const report = this.reports.find((r:any) => r.id === update.reportId);
+        if (report) {
+          report.generatedFilePath = update.generatedFilePath;
+          report.status = update.status;
+          console.log(report);
+          
+        }
+      }
+    });
   }
 
   reports: any;
@@ -60,7 +55,6 @@ export class AnalyzerComponent implements OnInit {
     this.analyzeForm.reset();
     this.showCreateReportDialog = true;
   }
-
 
   initForm() {
     this.analyzeForm = this.formBuilder.group({
@@ -112,54 +106,56 @@ export class AnalyzerComponent implements OnInit {
   }
 
   getReportName() {
-    if (this.analyzeForm.value.reportName==undefined || this.analyzeForm.value.reportName.length == 0) {
+    if (
+      this.analyzeForm.value.reportName == undefined ||
+      this.analyzeForm.value.reportName.length == 0
+    ) {
       this.analyzeForm.patchValue({
         reportName: 'Report Analysis: ' + this.fileToUpload?.name,
       });
     }
   }
 
-  getAllReports(){
-    this.dataService.getAllReports().subscribe(res=>[
-      this.reports = res
-    ])
+  getAllReports() {
+    this.dataService.getAllReports().subscribe((res) => [(this.reports = res)]);
   }
 
   onSubmit(): void {
-    this.getReportName()
+    this.getReportName();
     console.log(this.fileToUpload);
     console.log(this.analyzeForm);
     const formData = new FormData();
     formData.append('reportName', this.analyzeForm.value.reportName);
-    formData.append('jobDescription',this.analyzeForm.value.jobDescription);
+    formData.append('jobDescription', this.analyzeForm.value.jobDescription);
     formData.append('resume', this.fileToUpload, this.fileToUpload?.name);
     // console.log(formData.get('resume'));
-    
-    this.dataService.createReport(formData).subscribe(res=>{
+
+    this.dataService.createReport(formData).subscribe((res) => {
       console.log(res);
-      this.reports = res
-    })
+      this.reports = res;
+    });
 
-    this.closeFormAndreset()
+    this.closeFormAndreset();
   }
 
-  closeFormAndreset(){
-    this.analyzeForm.reset()
-    this.showCreateReportDialog = false
+  closeFormAndreset() {
+    this.analyzeForm.reset();
+    this.showCreateReportDialog = false;
   }
 
-  downloadFile(report:any){
-    this.dataService.downloadReport(report.id).subscribe((res:any)=>{
+  downloadFile(report: any) {
+    this.dataService.downloadReport(report.id).subscribe((res: any) => {
       const blob = new Blob([res.body!], {
         type: res.body?.type || 'application/octet-stream',
       });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = report.generatedFilePath.split('/').pop() || 'downloaded_file.pdf';
+      a.download =
+        report.generatedFilePath.split('/').pop() || 'downloaded_file.pdf';
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
-    })
+    });
   }
 }

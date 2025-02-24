@@ -7,7 +7,7 @@
     </div>
 </header>
 <div class="grid justify-content-center m-6 w-full p-datatable-wrapper w-full">
-    <p-table [value]="reports" [scrollable]="true" scrollHeight="500px" [lazy]="true" class="w-5">
+    <p-table   [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"  [value]="reports" [scrollable]="true" scrollHeight="500px" [lazy]="true" class="w-5">
         <ng-template #caption>
             <div class="flex">
                 <p-button (onClick)="showAnalyzerDialog()" label="Create Report" icon="pi pi-microchip-ai" class="" />
