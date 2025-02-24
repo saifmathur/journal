@@ -27,6 +27,7 @@ import { FocusTrapModule } from 'primeng/focustrap';
 import { FieldsetModule } from 'primeng/fieldset';
 import { TextareaModule } from 'primeng/textarea';
 import { FileUploadModule } from 'primeng/fileupload';
+import { ProgressBarModule } from 'primeng/progressbar';
 export const primengmodules = [
   ButtonModule,
   CardModule,
@@ -35,6 +36,7 @@ export const primengmodules = [
   ConfirmPopupModule,FocusTrapModule,
   DatePickerModule,
   DividerModule,
+  ProgressBarModule,
   TooltipModule,
   ChipModule,
   ProgressSpinnerModule,InputNumberModule,

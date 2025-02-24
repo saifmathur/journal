@@ -37,8 +37,19 @@
                 <td>{{ report.bucketFilePath?.split('/').pop() }}</td>
                 <!-- <td>{{ report.reportDate }}</td> -->
                 <td>{{ report.createdDate | date:'fullDate' }}</td>
-                <td>
-                    <p-badge [value]="report?.status" [severity]="getSeverity(report.status)" />
+                <td class="ml-auto">
+                    <p-badge *ngIf="report?.status !== 'Processing'" [value]="report?.status" [severity]="getSeverity(report.status)" />
+                    <!-- <i class="pi pi-spin pi-spinner" style="font-size: 1rem"></i> -->
+
+                    <!-- <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s"
+                        [style]="{ width: '10px', height: '10px' }" /> -->
+                    <div *ngIf="report?.status == 'Processing'" style="text-align: center;">
+                        <span style="font-weight: 500; font-size: 0.8rem;">{{report?.status}}...</span>
+                        <p-progressbar mode="indeterminate"
+                            [style]="{ height: '6px', width: '100%', margin: '10px auto', 'border-radius': '8px' }"
+                            [styleClass]="'centered-progressbar'"></p-progressbar>
+                    </div>
+                    
                 </td>
                 <td class="ml-auto">
                     <!-- <p-button pTooltip="View Report" tooltipPosition="top" icon="pi pi-eye" [rounded]="true" [text]="true"/> -->
