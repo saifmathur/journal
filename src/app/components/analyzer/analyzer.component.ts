@@ -35,12 +35,22 @@ export class AnalyzerComponent implements OnInit {
 
     this.websocketService.reportStatus$.subscribe((update) => {
       if (update) {
-        const report = this.reports.find((r:any) => r.id === update.reportId);
-        if (report) {
+        const reportIndex = this.reports.findIndex((r: any) => r.id === update.reportId);
+        if (reportIndex !== -1) {
+          const [report] = this.reports.splice(reportIndex, 1); // Remove the report from its current position
           report.generatedFilePath = update.generatedFilePath;
           report.status = update.status;
+
+          this.reports.unshift(report); // Add the report to the top of the list
+
           console.log(report);
-          this.showToast('success','Report with name '+report.reportName+' is generated!')
+          if(report.status.toLowerCase().includes('generated')){
+
+            this.showToast(
+              'success',
+              'Report with name ' + report.reportName + ' is generated!'
+            );
+          }
         }
       }
     });
