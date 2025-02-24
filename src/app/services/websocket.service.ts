@@ -25,7 +25,7 @@ export class WebsocketService {
       connectHeaders: {},
       debug: (str) => console.log(str),
       reconnectDelay: 5000,
-      webSocketFactory: () => new SockJS('http://'+environment.hostName+'/ws'),
+      webSocketFactory: () => new SockJS(environment.apiUrl+'/ws'),
     });
 
     this.client.onConnect = () => {
