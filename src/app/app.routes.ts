@@ -8,7 +8,7 @@ import { RemindersComponent } from './components/reminders/reminders.component';
 import { AnalyzerComponent } from './components/analyzer/analyzer.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Default route
+  { path: '', redirectTo: '/entries', pathMatch: 'full' }, // Default route
   {
     path: 'create',
     component: CreationPageComponent,
