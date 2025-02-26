@@ -20,6 +20,14 @@ export class NavbarComponent implements OnChanges, OnInit {
   fullName: any;
   stats: any;
   logoSrc: string | undefined;
+  userDetails: any;
+  userName: any;
+  firstName: any;
+  lastName: any;
+  address1: any;
+  address2: any;
+  email: any;
+  showPasswordChange: boolean = false;
   closeCallback($event: MouseEvent) {}
   showNavOptions: boolean = false;
   isLoggedIn: boolean = false;
@@ -41,7 +49,19 @@ export class NavbarComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
   }
-
+  updateUser() {
+    let payload = {
+      addressLine1: this.address1,
+      addressLine2: this.address2,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      DOB: this.dob,
+      email: this.email,
+    };
+    this.dataService.updateUser(payload).subscribe((res: any) => {
+      this.showToast('info', res.message);
+    });
+  }
   async getActiveReminders() {
     const res = await firstValueFrom(this.dataService.getActiveReminders());
     this.reminders = res;
@@ -51,6 +71,20 @@ export class NavbarComponent implements OnChanges, OnInit {
     const res = await firstValueFrom(this.dataService.getJournaStats());
     this.stats = res;
   }
+  async getUserDetails() {
+    const res = await firstValueFrom(this.dataService.getUserDetails());
+    this.userDetails = res;
+    this.userName = this.userDetails.userName;
+    this.email = this.userDetails.userDetails.email;
+    this.firstName = this.userDetails.userDetails.firstName;
+    this.lastName = this.userDetails.userDetails.lastName;
+    this.address1 = this.userDetails.userDetails.addressLine1;
+    this.address2 = this.userDetails.userDetails.addressLine2;
+    this.dob = new Date(this.userDetails.userDetails.dob);
+    this.showPasswordChange = this.userDetails.roles.includes('GOOGLE')
+    console.log(this.userDetails);
+  }
+
   checkUserState() {
     setInterval(() => {
       this.checkUserLoggedIn();
@@ -111,6 +145,13 @@ export class NavbarComponent implements OnChanges, OnInit {
     this.sideOptions = true;
   }
 
+  async openAccountDrawers() {
+    await this.getUserDetails();
+    this.accountDrawer = true;
+  }
+
+  accountDrawer: boolean = false;
+  dob: any;
   setLogo(): void {
     const isDarkMode =
       document.documentElement.classList.contains('my-app-dark');
@@ -155,7 +196,7 @@ export class NavbarComponent implements OnChanges, OnInit {
             icon: 'pi pi-chart-bar',
             command: () => {
               this.router.navigate(['/analyzer']);
-            }
+            },
           },
         ],
       },

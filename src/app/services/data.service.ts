@@ -128,12 +128,26 @@ export class DataService {
     });
   }
 
-  downloadReport(id:any){
+  downloadReport(id: any) {
     const headers = this.auth.getAuthHeaders();
     return this.http.get(`${this.apiUrl}/analyzer/downloadReport/${id}`, {
       headers: headers,
-      responseType: 'blob', 
+      responseType: 'blob',
       observe: 'response',
+    });
+  }
+
+  updateUser(payload: any) {
+    const headers = this.auth.getAuthHeaders();
+    return this.http.post(`${this.apiUrl}/user/update`, payload, {
+      headers: headers,
+    });
+  }
+
+  getUserDetails() {
+    const headers = this.auth.getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/user/getUserDetails`, {
+      headers: headers,
     });
   }
 }

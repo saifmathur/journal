@@ -93,9 +93,100 @@
     </p-fieldset>
     <ng-template #footer>
         <div class="flex items-center gap-2">
-            <button [disabled]="true" pButton label="Account" icon="pi pi-user" class="w-full" outlined></button>
+            <button [disabled]="false" pButton (click)="openAccountDrawers()" label="Account" icon="pi pi-user"
+                class="w-full" outlined></button>
             <button pButton label="Logout" (click)="logout()" icon="pi pi-sign-out" class="w-full" severity="danger"
                 text></button>
         </div>
     </ng-template>
+</p-drawer>
+
+
+
+<p-drawer position="right" header="Edit Account" [(visible)]="accountDrawer"
+    styleClass="!w-full md:!w-80 lg:!w-[50rem]">
+    <div class="grid mt-2">
+        <p-accordion value="0">
+            <p-accordion-panel value="0">
+                <p-accordion-header>User Details</p-accordion-header>
+                <p-accordion-content>
+
+                    <div class="grid">
+                        <div class="col-4 flex flex-col gap-2">
+                            <label for="username">Username</label>
+                            <input [(ngModel)]="userName" [disabled]="true" pInputText type="text">
+                        </div>
+                        <div class="col-4 flex flex-col gap-2">
+                            <label for="username">First Name</label>
+                            <input [(ngModel)]="firstName" pInputText type="text">
+                        </div>
+                        <div class="col-4 flex flex-col gap-2">
+                            <label for="username">Last Name</label>
+                            <input [(ngModel)]="lastName" pInputText type="text">
+                        </div>
+                        <div class="col-4 flex flex-col gap-2">
+                            <label for="username">Address Line 1</label>
+                            <input [(ngModel)]="address1" pInputText type="text">
+                        </div>
+                        <div class="col-4 flex flex-col gap-2">
+                            <label for="username">Address Line 2</label>
+                            <input [(ngModel)]="address2" pInputText type="text">
+                        </div>
+                        <div class="col-4 flex flex-col gap-2">
+                            <label for="username">email</label>
+                            <input [(ngModel)]="email" pInputText type="text">
+                        </div>
+                        <div class="col-4 flex flex-col gap-2">
+                            <label for="username">Date of Birth</label>
+                            <p-datepicker appendTo="body" [(ngModel)]="dob" [iconDisplay]="'input'" class="p-datepicker"
+                        [showIcon]="true" inputId="icondisplay" />
+                        </div>
+                        <div class="col-12">
+                            <button (click)="updateUser()" pButton>Save</button>
+                        </div>
+                    </div>
+
+                </p-accordion-content>
+            </p-accordion-panel>
+
+            <p-accordion-panel [disabled]="showPasswordChange" value="1">
+                <p-accordion-header>Privacy</p-accordion-header>
+                <p-accordion-content>
+                    <div class="grid">
+                        <div class="col-6 flex flex-col gap-2">
+                            <label for="username">Current Password</label>
+                            <input pInputText type="text">
+                        </div>
+                        <div class="col-6 flex flex-col gap-2">
+                            <label for="username">New Password</label>
+                            <input pInputText type="text">
+                        </div>
+                        <div class="col-12">
+                            <button pButton>Change Password</button>
+                        </div>
+                    </div>
+                </p-accordion-content>
+            </p-accordion-panel>
+
+            <!-- <p-accordion-panel value="2">
+                <p-accordion-header>Other Details</p-accordion-header>
+                <p-accordion-content>
+                    <div class="grid">
+                        <div class="col-6 flex flex-col gap-2">
+                            <label for="username">Current Password</label>
+                            <input pInputText type="text">
+                        </div>
+                        <div class="col-6 flex flex-col gap-2">
+                            <label for="username">New Password</label>
+                            <input pInputText type="text">
+                        </div>
+                        <div class="col-12">
+                            <button pButton>Change Password</button>
+                        </div>
+                    </div>
+                </p-accordion-content>
+            </p-accordion-panel> -->
+        </p-accordion>
+
+    </div>
 </p-drawer>

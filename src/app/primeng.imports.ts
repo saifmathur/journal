@@ -30,22 +30,26 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { StepsModule } from 'primeng/steps';
 import { TimelineModule } from 'primeng/timeline';
+import { AccordionModule } from 'primeng/accordion';
 import { StepperModule } from 'primeng/stepper';
 export const primengmodules = [
   ButtonModule,
   CardModule,
   StepperModule,
   TimelineModule,
+  AccordionModule,
   StepsModule,
   TextareaModule,
   FileUploadModule,
-  ConfirmPopupModule,FocusTrapModule,
+  ConfirmPopupModule,
+  FocusTrapModule,
   DatePickerModule,
   DividerModule,
   ProgressBarModule,
   TooltipModule,
   ChipModule,
-  ProgressSpinnerModule,InputNumberModule,
+  ProgressSpinnerModule,
+  InputNumberModule,
   TableModule,
   DrawerModule,
   FieldsetModule,
