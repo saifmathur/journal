@@ -81,7 +81,7 @@ export class NavbarComponent implements OnChanges, OnInit {
     this.address1 = this.userDetails.userDetails.addressLine1;
     this.address2 = this.userDetails.userDetails.addressLine2;
     this.dob = new Date(this.userDetails.userDetails.dob);
-    this.showPasswordChange = this.userDetails.roles.includes('GOOGLE')
+    this.showPasswordChange = !this.userDetails.roles.includes('GOOGLE')
     console.log(this.userDetails);
   }
 
